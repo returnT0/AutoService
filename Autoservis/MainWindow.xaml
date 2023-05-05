@@ -1,0 +1,22 @@
+﻿<Window x:Class = "Autoservis.MainWindow"
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+   xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:local = "clr-namespace:Autoservis"
+   xmlns:views = "clr-namespace:Autoservis.Views"
+   mc:Ignorable = "d"
+   Title = "Autoservis" Height = "500" Width = "800">
+
+    <Grid>
+        <views:ZakaznikView x:Name = "ZakaznikViewControl"/>
+        <!--<views:AutoView x:Name = "ZakaznikViewControl" Loaded = "AutoViewControl_Loaded"/>-->
+        <!--<views:ServisView x:Name = "ZakaznikViewControl" Loaded = "ServisViewControl_Loaded"/>-->
+        <!--<views:PridejKlientaView x:Name = "ZakaznikViewControl" Loaded = "PridejViewControl_Loaded"/>-->
+        <!--<views:NovyKlient x:Name = "ZakaznikViewControl" Loaded = "PridejKlienta_Loaded"/>-->
+        <!--<views:ZakaznikView x:Name = "ZakaznikViewControl" />-->
+    </Grid>
+
+    
+
+</Window>

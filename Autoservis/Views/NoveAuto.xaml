@@ -1,0 +1,46 @@
+﻿<Window x:Class="Autoservis.Views.NoveAuto"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Autoservis.Views"
+             mc:Ignorable="d" 
+             Width="250" Height="300">
+    <Grid  >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation = "Vertical">
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content = "Brand:" 
+                       Width="90" Margin = "5"/>
+                <TextBox x:Name="znackaVozu" HorizontalAlignment="Left"  Width = "100" Margin = "5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content = "Model:" 
+                       Width="90" Margin = "5"/>
+                <TextBox x:Name="modelVozu" HorizontalAlignment="Left"  Width = "100" Margin = "5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content = "SPZ:" 
+                      Width="90"  Margin = "5"/>
+                <TextBox x:Name="spz" HorizontalAlignment="Left"  Width = "100" Margin = "5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content = "VIN:" 
+                      Width="90"  Margin = "5"/>
+                <TextBox x:Name="vin" HorizontalAlignment="Left"  Width = "100" Margin = "5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content = "Color:" 
+                      Width="90"  Margin = "5"/>
+                <TextBox x:Name="barva" HorizontalAlignment="Left"  Width = "100" Margin = "5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Name="pridat"  Content="Add" Foreground="White" Background="#000000"  Height="30" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Click="pridat_Click"/>
+                <Button Name="konec"  Content="Cancel" Foreground="White" Background="#000000"  Height="30" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="100" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
