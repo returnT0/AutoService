@@ -7,6 +7,18 @@
              xmlns:model="clr-namespace:Autoservis.ViewModel" 
              xmlns:model1="clr-namespace:Autoservis.Model" 
              mc:Ignorable="d" Height="450" Width="800">
+    <UserControl.Resources>
+            <Style x:Key="HoverButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#000000"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="15,10,0,0"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+    </UserControl.Resources>
     <Grid>
         <StackPanel  Orientation = "Vertical" Height="30" VerticalAlignment="Top" >
         
@@ -15,8 +27,8 @@
             <ListView Name="lvZakaznici" MouseDoubleClick="lvZakaznici_MouseDoubleClick" Margin="20" BorderBrush="#000000" BorderThickness="3"  HorizontalAlignment="Left" Width="600" HorizontalContentAlignment="Left" SelectionChanged="lvZakaznici_SelectionChanged">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Name"  Width="100" DisplayMemberBinding="{Binding Path= Jmeno}" />
-                        <GridViewColumn Header="Surname" Width="100" DisplayMemberBinding="{Binding Path= Prijmeni}" />
+                        <GridViewColumn Header="First name"  Width="100" DisplayMemberBinding="{Binding Path= Jmeno}" />
+                        <GridViewColumn Header="Last name" Width="100" DisplayMemberBinding="{Binding Path= Prijmeni}" />
                         <GridViewColumn Header="Phone number" Width="100" DisplayMemberBinding="{Binding Path= Telefon}" />
                         <GridViewColumn Header="Email" Width="100" DisplayMemberBinding="{Binding Path= Email}" />
                         <GridViewColumn Header="Address" Width="100" DisplayMemberBinding="{Binding Path= Adresa}" />
@@ -24,16 +36,18 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Orientation="Vertical" HorizontalAlignment ="Right" >
+            <StackPanel Orientation="Vertical" HorizontalAlignment ="Right">
 
-                <Button Content="Add" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,20,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
-                <Button Content="Delete" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_1"/>
-                <Button Content="Edit" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_2"/>
-                <Button Content="Save" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_3"/>
-                <!-- <Button Content="Upload" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_4"/> -->
-                <TextBox HorizontalAlignment="Left" Margin="15,10,0,0" Width="100" Height="30" Foreground="White" TextChanged="SearchTextBox_TextChanged" Background="#000000"/>
+                <Button Content="Add" Style="{StaticResource HoverButtonStyle}" Margin="15,20,0,0" Click="Add_Button_Click"/>
+                <Button Content="Delete" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Remove_Button_Click"/>
+                <Button Content="Edit" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Edit_Button_Click"/>
+                <Button Content="Save" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Save_Button_Click"/>
+                <!-- <Button Content="Upload" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Save_Button_Click"/> -->
+                <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="15,20,0,0">⏬search⏬</Label>
+                <TextBox HorizontalAlignment="Left" Margin="15,0,0,0" Width="100" Height="30" Foreground="White" Background="#000000" FontSize="18" FocusVisualStyle="{DynamicResource MyFocusVisualStyle}" TextChanged="SearchTextBox_TextChanged"/>
             </StackPanel>
         </StackPanel>
           
     </Grid>
+    
 </UserControl>

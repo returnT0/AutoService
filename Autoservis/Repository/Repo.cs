@@ -38,61 +38,31 @@ namespace Autoservis.Repository
         public ILiteCollection<T> Collection { get; set; }
         public T GetById(int id)
         {
-            try
-            {
-                return Collection.FindById(id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            return Collection.FindById(id);
         }
 
-        public ObservableCollection<T> GetAll() 
+        public ObservableCollection<T> GetAll()
         {
-            try
+            IEnumerable<T> ienu = Collection.FindAll();
+            ObservableCollection<T> collection = new ObservableCollection<T>();
+            foreach (var item in ienu)
             {
-                IEnumerable<T> ienu = Collection.FindAll();
-                ObservableCollection<T> collection = new ObservableCollection<T>();
-                foreach (var item in ienu)
-                {
-                    collection.Add(item);
-                }
-                return collection;
+                collection.Add(item);
             }
-            catch (Exception)
-            {
+            return collection;
+        }
 
-                throw;
+        public void AddAll(ObservableCollection<T> list)
+        {
+            foreach (var item in list)
+            {
+                Collection.Insert(item);
             }
         }
 
-        public void AddAll(ObservableCollection<T> list) {
-            try
-            {
-                foreach (var item in list)
-                {
-                    Collection.Insert(item);
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public void RemoveAll() {
-            try
-            {
-                Collection.DeleteAll();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+        public void RemoveAll()
+        {
+            Collection.DeleteAll();
         }
 
     }

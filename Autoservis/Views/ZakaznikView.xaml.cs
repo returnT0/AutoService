@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,9 +8,6 @@ using Autoservis.Manager;
 using Autoservis.Model;
 using Autoservis.Repository;
 using Autoservis.ViewModel;
-using Microsoft.Win32;
-using System.Data.SQLite;
-using System.Linq;
 
 namespace Autoservis.Views;
 
@@ -24,7 +22,7 @@ public partial class ZakaznikView : UserControl
     public static Zakaznik zakaznik;
     public static bool edit;
     private string searchTerm;
-    
+
     public ZakaznikView()
     {
         Repo repo = new();
@@ -46,17 +44,15 @@ public partial class ZakaznikView : UserControl
     public static AutoMng autoMng { get; set; }
     public static ServisMng servisMng { get; set; }
     public static CenaMng cenaMng { get; set; }
+    public string PlaceholderText { get; set; }
 
-
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void Add_Button_Click(object sender, RoutedEventArgs e)
     {
         var threadOpen = new Thread(() =>
         {
             var oknoNovyKlient = Dispatcher.Invoke(() => new NovyKlient());
             Dispatcher.Invoke(() => oknoNovyKlient.Show());
             Dispatcher.Invoke(() => lvZakaznici.Items.Refresh());
-            //ADD-ME MessageBox.Show("Zákazník přidán");
-
         });
         threadOpen.Start();
     }
@@ -79,7 +75,7 @@ public partial class ZakaznikView : UserControl
     }
 
     //Delete
-    private void Button_Click_1(object sender, RoutedEventArgs e)
+    private void Remove_Button_Click(object sender, RoutedEventArgs e)
     {
         var threadDelete = new Thread(() =>
         {
@@ -89,7 +85,7 @@ public partial class ZakaznikView : UserControl
     }
 
     //Edit
-    private void Button_Click_2(object sender, RoutedEventArgs e)
+    private void Edit_Button_Click(object sender, RoutedEventArgs e)
     {
         var threadEdit = new Thread(() =>
         {
@@ -109,8 +105,8 @@ public partial class ZakaznikView : UserControl
         threadEdit.Start();
     }
 
-    //Uloz do db
-    private void Button_Click_3(object sender, RoutedEventArgs e)
+    //Save to db
+    private void Save_Button_Click(object sender, RoutedEventArgs e)
     {
         var threadUloz = new Thread(() =>
         {
@@ -129,7 +125,7 @@ public partial class ZakaznikView : UserControl
     }
 
     //Nacti z db
-    // private void Button_Click_4(object sender, RoutedEventArgs e)
+    // private void Save_Button_Click(object sender, RoutedEventArgs e)
     // {
     //     OpenFileDialog openFileDialog = new OpenFileDialog();
     //     if (openFileDialog.ShowDialog() == true)
@@ -215,16 +211,14 @@ public partial class ZakaznikView : UserControl
     //         MessageBox.Show("Data byla úspěšně nahrána", "Nahráno");
     //     }
     // }
-private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
-{
-    string searchText = (sender as TextBox).Text.ToLower();
-    var filteredList = ZakaznikViewModel.Zakaznici.Where(z => 
-        z.Jmeno.ToLower().Contains(searchText) ||
-        z.Prijmeni.ToLower().Contains(searchText) ||
-        z.Telefon.Contains(searchText) ||
-        z.Email.ToLower().Contains(searchText));
-    lvZakaznici.ItemsSource = filteredList;
-    Dispatcher.Invoke(() => lvZakaznici.Items.Refresh());
-}
-    
+    private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        var searchText = (sender as TextBox).Text.ToLower();
+        var filteredList = ZakaznikViewModel.Zakaznici.Where(z =>
+            z.Jmeno.ToLower().Contains(searchText) ||
+            z.Prijmeni.ToLower().Contains(searchText) ||
+            z.Email.ToLower().Contains(searchText));
+        lvZakaznici.ItemsSource = filteredList;
+        Dispatcher.Invoke(() => lvZakaznici.Items.Refresh());
+    }
 }
