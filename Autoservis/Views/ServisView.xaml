@@ -11,7 +11,7 @@
 
         </StackPanel>
         <StackPanel  Orientation = "Horizontal" >
-            <ListView Name="lvServis" Margin="10" BorderBrush="#000000" BorderThickness="3" 
+            <ListView Name="lvServis" Margin="10" Height="430" BorderBrush="#000000" BorderThickness="3" 
                       HorizontalAlignment="Left" Width="440" HorizontalContentAlignment="Left" SelectionChanged="lvServis_SelectionChanged">
                 <ListView.View>
                     <GridView>
@@ -23,26 +23,27 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                <ListView  Name="lvCena" Margin="0" BorderBrush="#31B4E6" Height="410" BorderThickness="3" 
+            <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+                <ListView  Name="lvCena" Margin="0" BorderBrush="#000000" Height="430" BorderThickness="3" 
                            ItemsSource="{Binding Path=Cena}" HorizontalAlignment="Left" Width="200" HorizontalContentAlignment="Left">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Položka"  Width="100" DisplayMemberBinding="{Binding Path= Polozka}" />
-                            <GridViewColumn Header="Cena" Width="100" DisplayMemberBinding="{Binding Path= CenaPolozky}" />
+                            <GridViewColumn Header="Item" Width="100" DisplayMemberBinding="{Binding Path= Polozka}" />
+                            <GridViewColumn Header="Price" Width="100" DisplayMemberBinding="{Binding Path= CenaPolozky}" />
                             </GridView>
                     </ListView.View>
                 </ListView>
             </StackPanel>
             <StackPanel Orientation="Vertical" HorizontalAlignment ="Right" >
+                <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="20,10,0,0">Service</Label>
+                <Button Name="PridatServis" Content="Add" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="PridatServis_Click"/>
+                <Button Name="EditovatServis" Content="Edit" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Edit_servis"/>
+                <Button Name="OdebratServis" Content="Remove" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="OdebratServis_Click"/>
 
-                <Button Name="PridatServis" Content="Přidat Servis" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="PridatServis_Click"/>
-                <Button Name="OdebratServis" Content="Odebrat Servis" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="OdebratServis_Click"/>
-                <Button Name="EditovatServis" Content="Editovat Servis" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Edit_servis"/>
-
-                <Button Name="PridatPolozku" Content="Přidat Položku" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,30,0,0" VerticalAlignment="Top" Width="100" Click="PridatPolozku_Click"/>
-                <Button Name="OdebratPolozku" Content="Odebrat Položku" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="OdebratPolozku_Click"/>
-                <Button Name="EditovatPolozku" Content="Editovat Položku" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Edit_Polozka"/>
+                <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="20,30,0,0">Item</Label>
+                <Button Name="PridatPolozku" Content="Add" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="PridatPolozku_Click"/>
+                <Button Name="EditovatPolozku" Content="Edit" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Edit_Polozka"/>
+                <Button Name="OdebratPolozku" Content="Remove" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="OdebratPolozku_Click"/>
                 
                 <Button Name="Return" Content="↩" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Left" Margin="15,30,0,0" VerticalAlignment="Top" Width="100" Click="konec_Click"/>
 

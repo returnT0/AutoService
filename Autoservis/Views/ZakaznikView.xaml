@@ -26,12 +26,12 @@
             </ListView>
             <StackPanel Orientation="Vertical" HorizontalAlignment ="Right" >
 
-                <Button Content="Add" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
+                <Button Content="Add" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,20,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
                 <Button Content="Delete" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_1"/>
                 <Button Content="Edit" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_2"/>
                 <Button Content="Save" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_3"/>
-                <Button Content="Find" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_4"/>
-
+                <!-- <Button Content="Upload" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_4"/> -->
+                <TextBox HorizontalAlignment="Left" Margin="15,10,0,0" Width="100" Height="30" Foreground="White" TextChanged="SearchTextBox_TextChanged" Background="#000000"/>
             </StackPanel>
         </StackPanel>
           
