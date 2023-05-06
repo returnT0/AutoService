@@ -6,6 +6,18 @@
              xmlns:local="clr-namespace:Autoservis.Views" xmlns:model="clr-namespace:Autoservis.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="HoverButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="15,10,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         
             <StackPanel Orientation="Vertical" Margin="0,0,0,0">
@@ -37,10 +49,10 @@
             
             <StackPanel Orientation="Vertical" Margin="30,100,0,0">
 
-                <Button Name="pridat" Content="Add" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
-                <Button Name="odebrat" Content="Delete" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_Odebrat"/>
-                <Button Name="editovat" Content="Edit" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_Edit"/>
-                <Button Name="return" Content="↩" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="konec_Click"/>
+                <Button Content="Add📥" Style="{StaticResource HoverButtonStyle}" Margin="15,0,0,0" Click="AddButtonClick"/>
+                <Button Content="Delete🗑" Style="{StaticResource HoverButtonStyle}" Click="RemoveButtonClick"/>
+                <Button Content="Edit📝" Style="{StaticResource HoverButtonStyle}" Click="EditButtonClick"/>
+                <Button Content="↩" Style="{StaticResource HoverButtonStyle}" HorizontalAlignment="Left" Click="BackToZakazniki_Click"/>
             </StackPanel>
         </StackPanel>
 

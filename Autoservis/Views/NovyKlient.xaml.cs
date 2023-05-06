@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using Autoservis.Model;
 using Autoservis.ViewModel;
@@ -15,26 +14,21 @@ public partial class NovyKlient : Window
     public NovyKlient()
     {
         InitializeComponent();
-        var threadAdd = new Thread(() =>
+
+        if (ZakaznikView.edit)
         {
-            if (ZakaznikView.edit && ZakaznikView.zakaznik != null)
-            {
-                Dispatcher.Invoke(() => pridat.Content = "✔");
-                Dispatcher.Invoke(() => jmeno.Text = ZakaznikView.zakaznik.Jmeno);
-                Dispatcher.Invoke(() => prijmeni.Text = ZakaznikView.zakaznik.Prijmeni);
-                Dispatcher.Invoke(() => telefon.Text = ZakaznikView.zakaznik.Telefon);
-                Dispatcher.Invoke(() => email.Text = ZakaznikView.zakaznik.Email);
-                Dispatcher.Invoke(() => adresa.Text = ZakaznikView.zakaznik.Adresa);
-                Dispatcher.Invoke(() => poznamka.Text = ZakaznikView.zakaznik.Poznamky);
-            }
-        });
-        threadAdd.Start();
+            pridat.Content = "✔";
+            jmeno.Text = ZakaznikView.zakaznik.Jmeno;
+            prijmeni.Text = ZakaznikView.zakaznik.Prijmeni;
+            telefon.Text = ZakaznikView.zakaznik.Telefon;
+            email.Text = ZakaznikView.zakaznik.Email;
+            adresa.Text = ZakaznikView.zakaznik.Adresa;
+            poznamka.Text = ZakaznikView.zakaznik.Poznamky;
+        }
     }
 
     private void pridat_Click(object sender, RoutedEventArgs e)
     {
-        // Thread threadAdd = new Thread(() =>
-        // {
         // Check if all required fields are entered
         if (string.IsNullOrEmpty(jmeno.Text) ||
             string.IsNullOrEmpty(prijmeni.Text) ||
@@ -89,8 +83,6 @@ public partial class NovyKlient : Window
         ZakaznikView.zakaznik = null!;
 
         Dispatcher.Invoke(() => GetWindow(this)!.Close());
-        // });
-        // threadAdd.Start();
     }
 
 

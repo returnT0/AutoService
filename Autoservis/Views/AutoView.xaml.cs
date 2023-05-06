@@ -49,7 +49,7 @@ public partial class AutoView : UserControl
         threadDoubleClick.Start();
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void AddButtonClick(object sender, RoutedEventArgs e)
     {
         var threadOpen = new Thread(() =>
         {
@@ -65,7 +65,7 @@ public partial class AutoView : UserControl
     }
 
 
-    private async void Button_Click_Odebrat(object sender, RoutedEventArgs e)
+    private async void RemoveButtonClick(object sender, RoutedEventArgs e)
     {
         if (lvAuta.SelectedItems.Count > 0)
         {
@@ -86,7 +86,7 @@ public partial class AutoView : UserControl
             await Task.Run(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ZakaznikView.zakaznik.Id));
     }
 
-    private async void Button_Click_Edit(object sender, RoutedEventArgs e)
+    private async void EditButtonClick(object sender, RoutedEventArgs e)
     {
         if (lvAuta.SelectedItems.Count > 0)
         {
@@ -110,8 +110,9 @@ public partial class AutoView : UserControl
         if (parentWindow != null) parentWindow.Close();
     }
 
-    private void konec_Click(object sender, RoutedEventArgs e)
+    private void BackToZakazniki_Click(object sender, RoutedEventArgs e)
     {
         CloseWindow();
     }
+    
 }

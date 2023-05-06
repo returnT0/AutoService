@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Purpose: Contains logic for ZakaznikView.xaml
+
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -23,7 +25,6 @@ public partial class ZakaznikView : UserControl
 
     public static Zakaznik zakaznik;
     public static bool edit;
-    private string searchTerm;
 
     public ZakaznikView()
     {
@@ -46,28 +47,31 @@ public partial class ZakaznikView : UserControl
     public static AutoMng autoMng { get; set; }
     public static ServisMng servisMng { get; set; }
     public static CenaMng cenaMng { get; set; }
-    public string PlaceholderText { get; set; }
+
+    private void Reminder()
+    {
+        MessageBox.Show("Don't forget to Save data!!", "Reminder", MessageBoxButton.OK, MessageBoxImage.Warning);
+    }
 
     private void Add_Button_Click(object sender, RoutedEventArgs e)
     {
         var threadOpen = new Thread(() =>
         {
-            bool isWindowClosed = false;
+            var isWindowClosed = false;
             var oknoNovyKlient = Dispatcher.Invoke(() => new NovyKlient());
             oknoNovyKlient.Closed += (s, args) => isWindowClosed = true;
             Dispatcher.Invoke(() => oknoNovyKlient.Show());
             Dispatcher.Invoke(() => lvZakaznici.Items.Refresh());
 
-            while (!isWindowClosed)
-            {
-                Thread.Sleep(100);
-            }
+            while (!isWindowClosed) Thread.Sleep(100);
 
-            MessageBox.Show("Data entered successfully.");
+            MessageBox.Show("Data successfully added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            Thread.Sleep(1000);
+            Reminder();
         });
         threadOpen.Start();
     }
-    
+
     private void lvZakaznici_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         var threadOpen = new Thread(() =>
@@ -85,6 +89,7 @@ public partial class ZakaznikView : UserControl
     {
     }
 
+    //Delete
     private async void Remove_Button_Click(object sender, RoutedEventArgs e)
     {
         var selectedItem = (Zakaznik)lvZakaznici.SelectedItem;
@@ -94,6 +99,12 @@ public partial class ZakaznikView : UserControl
             ZakaznikViewModel.Zakaznici.Remove(selectedItem);
             await RefreshListViewAsync();
             MessageBox.Show($"Uživatel {selectedItem.Jmeno} byl odstraněn.");
+            Thread.Sleep(1000);
+            Reminder();
+        }
+        else
+        {
+            MessageBox.Show("Undefined choice.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -108,6 +119,7 @@ public partial class ZakaznikView : UserControl
     {
         if (lvZakaznici.SelectedItems.Count > 0)
         {
+            edit = true;
             zakaznik = (Zakaznik)lvZakaznici.SelectedItem;
             var oknoNovyKlient = new NovyKlient();
             oknoNovyKlient.Show();
@@ -115,12 +127,11 @@ public partial class ZakaznikView : UserControl
         }
         else
         {
-            MessageBox.Show("Není vybráno");
+            MessageBox.Show("Undefined choice.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
-
-    //Save to db
+    //Uloz do db
     private async void Save_Button_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -149,7 +160,8 @@ public partial class ZakaznikView : UserControl
             cenaMng.AddAllCena(CenaViewModel.SeznamCenaServisu);
         });
     }
-    
+
+
     private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         var searchText = (sender as TextBox).Text.Trim();
@@ -162,19 +174,20 @@ public partial class ZakaznikView : UserControl
         lvZakaznici.ItemsSource = filteredList;
         lvZakaznici.Items.Refresh();
     }
-    
+
+    // private void RefreshButtonClick(object sender, RoutedEventArgs e)
+    // {
+    //     lvZakaznici.Items.Refresh();
+    // }
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
         ExitApplication();
     }
-    
+
     public static void ExitApplication()
     {
-        MessageBoxResult result = MessageBox.Show("Are you sure you want to exit the application?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-        if (result == MessageBoxResult.Yes)
-        {
-            Application.Current.Shutdown();
-        }
+        var result = MessageBox.Show("Are you sure you want to exit the application?", "Confirmation",
+            MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (result == MessageBoxResult.Yes) Application.Current.Shutdown();
     }
-
 }
