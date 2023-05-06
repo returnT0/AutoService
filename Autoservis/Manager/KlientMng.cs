@@ -16,12 +16,12 @@ namespace Autoservis.Manager
         public KlientMng(Repo klientRepo)
         {
             KlientRepo = new();
-            KlientRepo.Collection = klientRepo.getInstance().GetCollection<Zakaznik>("Client");
+            KlientRepo.Collection = klientRepo.getInstance().GetCollection<Zakaznik>("Zakaznik");
         }
 
         public Zakaznik GetByIdKlient(int id)
         {
-           return KlientRepo.GetById(id);
+            return KlientRepo.GetById(id);
         }
 
         public ObservableCollection<Zakaznik> GetAllKlient()

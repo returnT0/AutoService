@@ -19,7 +19,7 @@ public partial class NovyKlient : Window
         {
             if (ZakaznikView.edit && ZakaznikView.zakaznik != null)
             {
-                Dispatcher.Invoke(() => pridat.Content = "Edit");
+                Dispatcher.Invoke(() => pridat.Content = "✔");
                 Dispatcher.Invoke(() => jmeno.Text = ZakaznikView.zakaznik.Jmeno);
                 Dispatcher.Invoke(() => prijmeni.Text = ZakaznikView.zakaznik.Prijmeni);
                 Dispatcher.Invoke(() => telefon.Text = ZakaznikView.zakaznik.Telefon);

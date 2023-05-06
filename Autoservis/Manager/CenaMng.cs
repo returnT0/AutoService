@@ -18,7 +18,7 @@ namespace Autoservis.Manager
         public CenaMng(Repo cenaRepo)
         {
             CenaRepo = new();
-            CenaRepo.Collection = cenaRepo.getInstance().GetCollection<Cena>("Price");
+            CenaRepo.Collection = cenaRepo.getInstance().GetCollection<Cena>("Cena");
         }
 
         public Cena GetByIdCena(int id)
@@ -43,4 +43,3 @@ namespace Autoservis.Manager
 
     }
 }
-

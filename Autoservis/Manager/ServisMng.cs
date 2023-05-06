@@ -17,7 +17,7 @@ namespace Autoservis.Manager
         public ServisMng(Repo servisRepo)
         {
             ServisRepo = new();
-            ServisRepo.Collection = servisRepo.getInstance().GetCollection<Servis>("Service");
+            ServisRepo.Collection = servisRepo.getInstance().GetCollection<Servis>("Servis");
         }
 
         public Servis GetByIdServis(int id)

@@ -20,7 +20,7 @@ namespace Autoservis.ViewModel
         public void LoadAuta()
         {
             ObservableCollection<Auto> seznamAut = new ObservableCollection<Auto>();
-
+        
             seznamAut.Add(new Auto
             {
                 IdVozu = 1,

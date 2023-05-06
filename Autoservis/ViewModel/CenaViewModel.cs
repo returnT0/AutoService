@@ -19,7 +19,7 @@ namespace Autoservis.ViewModel
         public void LoadCena()
         {
             ObservableCollection<Cena> seznamCenaServisu = new ObservableCollection<Cena>();
-
+        
             seznamCenaServisu.Add(new Cena
             {
                   Polozka = "Kola",
@@ -44,8 +44,8 @@ namespace Autoservis.ViewModel
                 CenaPolozky = 6000,
                 IdServisu = 2
             });
-
-
+        
+        
             SeznamCenaServisu = seznamCenaServisu;
         }
     }

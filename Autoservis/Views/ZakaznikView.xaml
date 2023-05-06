@@ -38,13 +38,15 @@
             </ListView>
             <StackPanel Orientation="Vertical" HorizontalAlignment ="Right">
 
-                <Button Content="Add" Style="{StaticResource HoverButtonStyle}" Margin="15,20,0,0" Click="Add_Button_Click"/>
-                <Button Content="Delete" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Remove_Button_Click"/>
-                <Button Content="Edit" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Edit_Button_Click"/>
-                <Button Content="Save" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Save_Button_Click"/>
+                <Button Content="Add📥" Style="{StaticResource HoverButtonStyle}" Margin="15,20,0,0" Click="Add_Button_Click"/>
+                <Button Content="Delete🗑" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Remove_Button_Click"/>
+                <Button Content="Edit📝" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Edit_Button_Click"/>
+                <Button Content="Save💾" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Save_Button_Click"/>
                 <!-- <Button Content="Upload" Foreground="White" Background="#000000" Height="30" HorizontalAlignment="Center" Margin="15,10,0,0" VerticalAlignment="Top" Width="100" Click="Save_Button_Click"/> -->
-                <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="15,20,0,0">⏬search⏬</Label>
+                <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="15,20,0,0">🔍search⏬</Label>
                 <TextBox HorizontalAlignment="Left" Margin="15,0,0,0" Width="100" Height="30" Foreground="White" Background="#000000" FontSize="18" FocusVisualStyle="{DynamicResource MyFocusVisualStyle}" TextChanged="SearchTextBox_TextChanged"/>
+                <Button Content="☠" Style="{StaticResource HoverButtonStyle}" FontSize="30" Margin="15,130,0,0" Width="50" Height="50" Click="Exit_Click"/>
+
             </StackPanel>
         </StackPanel>
           

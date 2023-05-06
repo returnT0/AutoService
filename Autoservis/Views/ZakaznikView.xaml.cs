@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -50,13 +52,22 @@ public partial class ZakaznikView : UserControl
     {
         var threadOpen = new Thread(() =>
         {
+            bool isWindowClosed = false;
             var oknoNovyKlient = Dispatcher.Invoke(() => new NovyKlient());
+            oknoNovyKlient.Closed += (s, args) => isWindowClosed = true;
             Dispatcher.Invoke(() => oknoNovyKlient.Show());
             Dispatcher.Invoke(() => lvZakaznici.Items.Refresh());
+
+            while (!isWindowClosed)
+            {
+                Thread.Sleep(100);
+            }
+
+            MessageBox.Show("Data entered successfully.");
         });
         threadOpen.Start();
     }
-
+    
     private void lvZakaznici_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         var threadOpen = new Thread(() =>
@@ -74,151 +85,96 @@ public partial class ZakaznikView : UserControl
     {
     }
 
-    //Delete
-    private void Remove_Button_Click(object sender, RoutedEventArgs e)
+    private async void Remove_Button_Click(object sender, RoutedEventArgs e)
     {
-        var threadDelete = new Thread(() =>
+        var selectedItem = (Zakaznik)lvZakaznici.SelectedItem;
+
+        if (selectedItem != null)
         {
-            Dispatcher.Invoke(() => ZakaznikViewModel.Zakaznici.Remove((Zakaznik)lvZakaznici.SelectedItem));
-        });
-        threadDelete.Start();
+            ZakaznikViewModel.Zakaznici.Remove(selectedItem);
+            await RefreshListViewAsync();
+            MessageBox.Show($"Uživatel {selectedItem.Jmeno} byl odstraněn.");
+        }
+    }
+
+    private async Task RefreshListViewAsync()
+    {
+        await Task.Delay(100); // Wait for 100ms to ensure that the UI has time to update
+        lvZakaznici.Items.Refresh();
     }
 
     //Edit
-    private void Edit_Button_Click(object sender, RoutedEventArgs e)
+    private async void Edit_Button_Click(object sender, RoutedEventArgs e)
     {
-        var threadEdit = new Thread(() =>
+        if (lvZakaznici.SelectedItems.Count > 0)
         {
-            if (Dispatcher.Invoke(() => lvZakaznici.SelectedItems.Count > 0))
-            {
-                edit = true;
-                zakaznik = Dispatcher.Invoke(() => (Zakaznik)lvZakaznici.SelectedItem);
-                var oknoNovyKlient = Dispatcher.Invoke(() => new NovyKlient());
-                Dispatcher.Invoke(() => oknoNovyKlient.Show());
-                Dispatcher.Invoke(() => lvZakaznici.Items.Refresh());
-            }
-            else
-            {
-                MessageBox.Show("Není vybráno");
-            }
-        });
-        threadEdit.Start();
+            zakaznik = (Zakaznik)lvZakaznici.SelectedItem;
+            var oknoNovyKlient = new NovyKlient();
+            oknoNovyKlient.Show();
+            await Task.Run(() => lvZakaznici.Dispatcher.Invoke(() => lvZakaznici.Items.Refresh()));
+        }
+        else
+        {
+            MessageBox.Show("Není vybráno");
+        }
     }
+
 
     //Save to db
-    private void Save_Button_Click(object sender, RoutedEventArgs e)
+    private async void Save_Button_Click(object sender, RoutedEventArgs e)
     {
-        var threadUloz = new Thread(() =>
+        try
         {
-            Dispatcher.Invoke(() => klientMng.RemoveAllKlient());
-            Dispatcher.Invoke(() => autoMng.RemoveAllAuto());
-            Dispatcher.Invoke(() => servisMng.RemoveAllServis());
-            Dispatcher.Invoke(() => cenaMng.RemoveAllCena());
-
-            Dispatcher.Invoke(() => klientMng.AddAllKlient(ZakaznikViewModel.Zakaznici));
-            Dispatcher.Invoke(() => autoMng.AddAllAuto(AutoViewModel.Auta));
-            Dispatcher.Invoke(() => servisMng.AddAllServis(ServisViewModel.SeznamServisu));
-            Dispatcher.Invoke(() => cenaMng.AddAllCena(CenaViewModel.SeznamCenaServisu));
-        });
-        MessageBox.Show("Uloženo", "Uložení");
-        threadUloz.Start();
+            await SaveDataAsync();
+            MessageBox.Show("Data saved successfully.", "Save");
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error saving data: {ex.Message}", "Save Error");
+        }
     }
 
-    //Nacti z db
-    // private void Save_Button_Click(object sender, RoutedEventArgs e)
-    // {
-    //     OpenFileDialog openFileDialog = new OpenFileDialog();
-    //     if (openFileDialog.ShowDialog() == true)
-    //     {
-    //         string filePath = openFileDialog.FileName;
-    //         SQLiteConnection connection = new SQLiteConnection("Data Source=" + filePath + ";Version=3;");
-    //         connection.Open();
-    //         SQLiteCommand command = new SQLiteCommand(connection);
-    //
-    //         // Remove all existing data from the tables
-    //         command.CommandText = "DELETE FROM ZakaznikViewModel";
-    //         command.ExecuteNonQuery();
-    //         command.CommandText = "DELETE FROM AutoViewModel";
-    //         command.ExecuteNonQuery();
-    //         command.CommandText = "DELETE FROM ServisViewModel";
-    //         command.ExecuteNonQuery();
-    //         command.CommandText = "DELETE FROM CenaViewModel";
-    //         command.ExecuteNonQuery();
-    //
-    //         // Insert the new data into the tables
-    //         foreach (Zakaznik zakaznik in ZakaznikViewModel.Zakaznici)
-    //         {
-    //             command.CommandText = "INSERT INTO Klient (id, jmeno, prijmeni, telefon, email, adresa, poznamky, auta) " +
-    //                                   "VALUES (@id, @jmeno, @prijmeni, @telefon, @email, @adresa, @poznamky, @auta)";
-    //             command.Parameters.AddWithValue("@id", zakaznik.Id);
-    //             command.Parameters.AddWithValue("@Jmeno", zakaznik.Jmeno);
-    //             command.Parameters.AddWithValue("@Prijmeni", zakaznik.Prijmeni);
-    //             command.Parameters.AddWithValue("@Telefon", zakaznik.Telefon);
-    //             command.Parameters.AddWithValue("@Email", zakaznik.Email);
-    //             command.Parameters.AddWithValue("@Adresa", zakaznik.Adresa);
-    //             command.Parameters.AddWithValue("@Poznamky", zakaznik.Poznamky);
-    //             command.Parameters.AddWithValue("@idKlienta", zakaznik.auta);
-    //
-    //             command.ExecuteNonQuery();
-    //             command.Parameters.Clear();
-    //         }
-    //
-    //         foreach (Auto auto in AutoViewModel.Auta)
-    //         {
-    //             command.CommandText =
-    //                 "INSERT INTO Auto (idVozu, znackaVozu, modelVozu, spz, vin, barva) " +
-    //                 "VALUES (@idVozu, @znackaVozu, @modelVozu, @spz, @vin, @barva)";
-    //             command.Parameters.AddWithValue("@idVozu", auto.IdVozu);
-    //             command.Parameters.AddWithValue("@znackaVozu", auto.ZnackaVozu);
-    //             command.Parameters.AddWithValue("@modelVozu", auto.ModelVozu);
-    //             command.Parameters.AddWithValue("@spz", auto.Spz);
-    //             command.Parameters.AddWithValue("@vin", auto.Vin);
-    //             command.Parameters.AddWithValue("@barva", auto.Barva);
-    //             
-    //             command.ExecuteNonQuery();
-    //             command.Parameters.Clear();
-    //         }
-    //
-    //         foreach (Servis servis in ServisViewModel.SeznamServisu)
-    //         {
-    //             command.CommandText =
-    //                 "INSERT INTO Servis (idServis, idAuto, zavada, datumServiu, tachometr, plnostNadrze, cena) " +
-    //                 "VALUES (@idServis, @idAuto, @zavada, @datumServiu, @tachometr, @plnostNadrze, @cena)";
-    //             command.Parameters.AddWithValue("@idServis", servis.IdServis);
-    //             command.Parameters.AddWithValue("@idAuto", servis.IdAuto);
-    //             command.Parameters.AddWithValue("@zavada", servis.Zavada);
-    //             command.Parameters.AddWithValue("@datumServiu", servis.DatumServisu);
-    //             command.Parameters.AddWithValue("@tachometr", servis.Tachometr);
-    //             command.Parameters.AddWithValue("@plnostNadrze", servis.PlnostNadrze);
-    //             command.Parameters.AddWithValue("@cena", servis.Cena);
-    //             command.ExecuteNonQuery();
-    //             command.Parameters.Clear();
-    //         }
-    //
-    //         foreach (Cena cena in CenaViewModel.SeznamCenaServisu)
-    //         {
-    //             command.CommandText = "INSERT INTO Cena (item, cena, idServis) " +
-    //                                   "VALUES (@item, @cena, @idServis)";
-    //             command.Parameters.AddWithValue("@item", cena.Item);
-    //             command.Parameters.AddWithValue("@cena", cena.CenaPolozky);
-    //             command.Parameters.AddWithValue("@idServis", cena.idServis);
-    //             
-    //             command.ExecuteNonQuery();
-    //             command.Parameters.Clear();
-    //         }
-    //
-    //         connection.Close();
-    //         MessageBox.Show("Data byla úspěšně nahrána", "Nahráno");
-    //     }
-    // }
+    private async Task SaveDataAsync()
+    {
+        await Task.Run(() =>
+        {
+            klientMng.RemoveAllKlient();
+            autoMng.RemoveAllAuto();
+            servisMng.RemoveAllServis();
+            cenaMng.RemoveAllCena();
+
+            klientMng.AddAllKlient(ZakaznikViewModel.Zakaznici);
+            autoMng.AddAllAuto(AutoViewModel.Auta);
+            servisMng.AddAllServis(ServisViewModel.SeznamServisu);
+            cenaMng.AddAllCena(CenaViewModel.SeznamCenaServisu);
+        });
+    }
+    
     private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var searchText = (sender as TextBox).Text.ToLower();
+        var searchText = (sender as TextBox).Text.Trim();
+
         var filteredList = ZakaznikViewModel.Zakaznici.Where(z =>
-            z.Jmeno.ToLower().Contains(searchText) ||
-            z.Prijmeni.ToLower().Contains(searchText) ||
-            z.Email.ToLower().Contains(searchText));
+            z.Jmeno.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+            z.Prijmeni.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+            z.Email.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
+
         lvZakaznici.ItemsSource = filteredList;
-        Dispatcher.Invoke(() => lvZakaznici.Items.Refresh());
+        lvZakaznici.Items.Refresh();
     }
+    
+    private void Exit_Click(object sender, RoutedEventArgs e)
+    {
+        ExitApplication();
+    }
+    
+    public static void ExitApplication()
+    {
+        MessageBoxResult result = MessageBox.Show("Are you sure you want to exit the application?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (result == MessageBoxResult.Yes)
+        {
+            Application.Current.Shutdown();
+        }
+    }
+
 }

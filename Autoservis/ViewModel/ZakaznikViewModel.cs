@@ -19,7 +19,7 @@ namespace Autoservis.ViewModel
         public void LoadStudents()
         {
             ObservableCollection<Zakaznik> zakaznici = new ObservableCollection<Zakaznik>();
-
+        
             zakaznici.Add(new Zakaznik
             {
                 Jmeno = "Mark",
@@ -32,7 +32,7 @@ namespace Autoservis.ViewModel
             }); 
             zakaznici.Add(new Zakaznik
             {
-                Jmeno = "Allen",
+                Jmeno = "NE",
                 Prijmeni = "Brown",
                 Telefon = "555666999",
                 Email = "ddd@yyy.cz",
@@ -40,7 +40,7 @@ namespace Autoservis.ViewModel
                 Poznamky = "xxxxxxxxxx",
                 Id = 2
             }) ;
-
+        
             Zakaznici = zakaznici;
         }
     }
