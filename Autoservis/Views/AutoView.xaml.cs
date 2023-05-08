@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Autoservis;
-using Autoservis.Model;
-using Autoservis.ViewModel;
+using Autoservice;
+using Autoservice.Model;
+using Autoservice.ViewModel;
 
 namespace Autoservice.Views;
 
@@ -37,7 +37,7 @@ public partial class AutoView : UserControl
             if (Dispatcher.Invoke(() => lvAuta.SelectedItems.Count > 0))
             {
                 auto = Dispatcher.Invoke(() => (Auto)lvAuta.SelectedItem);
-                var oknoSeznamServis = Dispatcher.Invoke(() => new ServisWindow());
+                var oknoSeznamServis = Dispatcher.Invoke(() => new ServiceWindow());
                 Dispatcher.Invoke(() => seznamVybraneAuto.Clear());
                 Dispatcher.Invoke(() => seznamVybraneAuto.Add(auto));
                 Dispatcher.Invoke(() => oknoSeznamServis.Show());

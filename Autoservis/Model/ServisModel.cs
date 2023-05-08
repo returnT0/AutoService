@@ -6,13 +6,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Autoservis.Model
+namespace Autoservice.Model
 {
     public class ServisModel 
     {
     }
 
-    public class Servis : INotifyPropertyChanged
+    public class Service : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -22,7 +22,7 @@ namespace Autoservis.Model
         private string datumServiu;
         private int tachometr;
         private string plnostNadrze;
-        private Cena? cena;
+        private Price? price;
 
         public int IdServis
         {
@@ -125,19 +125,19 @@ namespace Autoservis.Model
             }
         }
 
-        public Cena CenaPolozky
+        public Price PricePolozky
         {
             get
             {
-                return cena;
+                return price;
             }
 
             set
             {
-                if (cena != value)
+                if (price != value)
                 {
-                    cena = value;
-                    RaisePropertyChanged("CenaPolozky");
+                    price = value;
+                    RaisePropertyChanged("PricePolozky");
                 }
             }
         }

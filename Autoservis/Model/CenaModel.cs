@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Autoservis.Model
+namespace Autoservice.Model
 {
     public class CenaModel
     {
     }
 
-    public class Cena : INotifyPropertyChanged
+    public class Price : INotifyPropertyChanged
     {
         private string polozka;
         private int cena;
@@ -64,7 +64,7 @@ namespace Autoservis.Model
                 if (cena != value)
                 {
                     cena = value;
-                    RaisePropertyChanged("CenaPolozky");
+                    RaisePropertyChanged("PricePolozky");
                 }
             }
         }

@@ -1,16 +1,16 @@
-﻿using Autoservis.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autoservice.Model;
 
-namespace Autoservis.ViewModel
+namespace Autoservice.ViewModel
 {
     public class ServisViewModel
     {
-        public static ObservableCollection<Servis> SeznamServisu
+        public static ObservableCollection<Service> SeznamServisu
         {
             get;
             set;
@@ -18,9 +18,9 @@ namespace Autoservis.ViewModel
 
         public void LoadSeznamServisu()
         {
-            ObservableCollection<Servis> seznamServisu = new ObservableCollection<Servis>();
+            ObservableCollection<Service> seznamServisu = new ObservableCollection<Service>();
 
-            seznamServisu.Add(new Servis
+            seznamServisu.Add(new Service
             {
                 IdServis = 1,
                 IdAuto = 1,
@@ -28,10 +28,10 @@ namespace Autoservis.ViewModel
                 DatumServisu = "05/29/2022",
                 Tachometr = 235412,
                 PlnostNadrze = "3/4",
-                CenaPolozky = CenaViewModel.SeznamCenaServisu[0]
+                PricePolozky = CenaViewModel.SeznamCenaServisu[0]
             }) ;
 
-            seznamServisu.Add(new Servis
+            seznamServisu.Add(new Service
             {
                 IdServis = 2,
                 IdAuto = 2,
@@ -39,7 +39,7 @@ namespace Autoservis.ViewModel
                 DatumServisu = "05/29/2020",
                 Tachometr = 222144,
                 PlnostNadrze = "1/2",
-                CenaPolozky = CenaViewModel.SeznamCenaServisu[1]
+                PricePolozky = CenaViewModel.SeznamCenaServisu[1]
             });
             
 

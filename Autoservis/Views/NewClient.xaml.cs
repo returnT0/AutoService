@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Autoservis.Model;
-using Autoservis.ViewModel;
+using Autoservice.Model;
+using Autoservice.ViewModel;
 
 namespace Autoservice.Views;
 
@@ -17,13 +17,13 @@ public partial class NewClient : Window
 
         if (ClientsView.Edit)
         {
-            pridat.Content = "✔";
-            jmeno.Text = ClientsView.Zakaznik.Jmeno;
-            prijmeni.Text = ClientsView.Zakaznik.Prijmeni;
-            telefon.Text = ClientsView.Zakaznik.Telefon;
-            email.Text = ClientsView.Zakaznik.Email;
-            adresa.Text = ClientsView.Zakaznik.Adresa;
-            poznamka.Text = ClientsView.Zakaznik.Poznamky;
+            add.Content = "✔";
+            jmeno.Text = ClientsView.Zakaznik?.Jmeno;
+            prijmeni.Text = ClientsView.Zakaznik?.Prijmeni;
+            telefon.Text = ClientsView.Zakaznik?.Telefon;
+            email.Text = ClientsView.Zakaznik?.Email;
+            adresa.Text = ClientsView.Zakaznik?.Adresa;
+            poznamka.Text = ClientsView.Zakaznik?.Poznamky;
         }
     }
 

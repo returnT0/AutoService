@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using LiteDB;
 
-namespace Autoservis.Repository;
+namespace Autoservice.Repository;
 
 public class Repo
 {

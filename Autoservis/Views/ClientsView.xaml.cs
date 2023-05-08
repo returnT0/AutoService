@@ -10,11 +10,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Autoservis;
-using Autoservis.Manager;
-using Autoservis.Model;
-using Autoservis.Repository;
-using Autoservis.ViewModel;
+using Autoservice;
+using Autoservice.Manager;
+using Autoservice.Model;
+using Autoservice.Repository;
+using Autoservice.ViewModel;
 
 namespace Autoservice.Views;
 

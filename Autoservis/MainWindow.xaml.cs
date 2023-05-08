@@ -1,6 +1,5 @@
-﻿using Autoservis.Manager;
-using Autoservis.Model;
-using Autoservis.ViewModel;
+﻿using Autoservice.Manager;
+using Autoservice.Model;
 using Autoservice.Views;
 using System;
 using System.Collections.Generic;
@@ -16,8 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Autoservice.ViewModel;
 
-namespace Autoservis
+namespace Autoservice
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -41,16 +41,16 @@ namespace Autoservis
 
         private void PridejViewControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Autoservis.ViewModel.ZakaznikViewModel autoViewModelObject =
-               new Autoservis.ViewModel.ZakaznikViewModel();
+            ZakaznikViewModel autoViewModelObject =
+               new ZakaznikViewModel();
 
             ZakaznikViewControl.DataContext = autoViewModelObject;
         }
 
         private void PridejKlienta_Loaded(object sender, RoutedEventArgs e)
         {
-            Autoservis.ViewModel.ZakaznikViewModel autoViewModelObject =
-               new Autoservis.ViewModel.ZakaznikViewModel();
+            ZakaznikViewModel autoViewModelObject =
+               new ZakaznikViewModel();
 
             ZakaznikViewControl.DataContext = autoViewModelObject;
         }

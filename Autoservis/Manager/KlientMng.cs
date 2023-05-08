@@ -1,13 +1,13 @@
-﻿using Autoservis.Model;
-using Autoservis.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autoservice.Model;
+using Autoservice.Repository;
 
-namespace Autoservis.Manager
+namespace Autoservice.Manager
 {
     public class KlientMng
     {

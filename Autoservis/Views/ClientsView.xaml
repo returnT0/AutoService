@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Autoservice.Views"
-             xmlns:model="clr-namespace:Autoservis.ViewModel" 
-             xmlns:model1="clr-namespace:Autoservis.Model" 
+             xmlns:model="clr-namespace:Autoservice.ViewModel" 
+             xmlns:model1="clr-namespace:Autoservice.Model" 
              mc:Ignorable="d" Height="450" Width="810">
     <UserControl.Resources>
             <Style x:Key="HoverButtonStyle" TargetType="{x:Type Button}">
@@ -42,8 +42,8 @@
                 <Button Content="Delete🗑" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Remove_Button_Click"/>
                 <Button Content="Edit📝" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Edit_Button_Click"/>
                 <Button Content="Save💾" Style="{StaticResource HoverButtonStyle}" Margin="15,10,0,0" Click="Save_Button_Click"/>
-                <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="15,30,0,0">🔍search⏬</Label>
-                <TextBox HorizontalAlignment="Left" Margin="22,0,0,0" Width="100" Height="30" Foreground="White" Background="#000000" FontSize="18" FocusVisualStyle="{DynamicResource MyFocusVisualStyle}" TextChanged="SearchTextBox_TextChanged"/>
+                <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="15,30,0,0">🧭search⏬</Label>
+                <TextBox HorizontalAlignment="Left" Margin="15,0,0,0" Width="120" Height="30" Foreground="White" Background="#000000" FontSize="18" FocusVisualStyle="{DynamicResource MyFocusVisualStyle}" TextChanged="SearchTextBox_TextChanged"/>
                 <StackPanel Orientation="Horizontal" Margin="0,80,0,0" Height="100">
                     <Button Content="🔄" Style="{StaticResource HoverButtonStyle}" FontSize="30" Margin="10,40,0,0" Width="50" Height="50" Click="RefreshViewClick"/>
                     <Button Content="☠" Style="{StaticResource HoverButtonStyle}" FontSize="30" Margin="25,40,0,0" Width="50" Height="50" Click="Exit_Click"/>
