@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Autoservis;
 using Autoservis.Model;
 using Autoservis.ViewModel;
 
-namespace Autoservis.Views;
+namespace Autoservice.Views;
 
 /// <summary>
 ///     Interaction logic for AutoView.xaml
@@ -23,9 +24,9 @@ public partial class AutoView : UserControl
     public AutoView()
     {
         InitializeComponent();
-        lvZakaznik.ItemsSource = Dispatcher.Invoke(() => ZakaznikView.seznamVybranyZakaznik);
+        lvZakaznik.ItemsSource = Dispatcher.Invoke(() => ClientsView.seznamVybranyZakaznik);
         lvAuta.ItemsSource =
-            Dispatcher.Invoke(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ZakaznikView.zakaznik.Id));
+            Dispatcher.Invoke(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.zakaznik.Id));
         Dispatcher.Invoke(() => lvAuta.Items.Refresh());
     }
 
@@ -59,7 +60,7 @@ public partial class AutoView : UserControl
             Dispatcher.Invoke(() => oknoNoveAuto.Show());
             while (!isWindowClosed) Thread.Sleep(100);
             Dispatcher.Invoke(() =>
-                lvAuta.ItemsSource = AutoViewModel.Auta.Where(x => x.IdKlienta == ZakaznikView.zakaznik.Id));
+                lvAuta.ItemsSource = AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.zakaznik.Id));
         });
         threadOpen.Start();
     }
@@ -83,7 +84,7 @@ public partial class AutoView : UserControl
     private async Task RefreshAutoListViewAsync()
     {
         lvAuta.ItemsSource =
-            await Task.Run(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ZakaznikView.zakaznik.Id));
+            await Task.Run(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.zakaznik.Id));
     }
 
     private async void EditButtonClick(object sender, RoutedEventArgs e)

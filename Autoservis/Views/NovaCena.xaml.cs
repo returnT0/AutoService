@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Autoservis.Views
+namespace Autoservice.Views
 {
     /// <summary>
     /// Interaction logic for NovaCena.xaml

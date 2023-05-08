@@ -4,30 +4,30 @@ using System.Windows;
 using Autoservis.Model;
 using Autoservis.ViewModel;
 
-namespace Autoservis.Views;
+namespace Autoservice.Views;
 
 /// <summary>
-///     Interaction logic for NovyKlient.xaml
+///     Interaction logic for NewClient.xaml
 /// </summary>
-public partial class NovyKlient : Window
+public partial class NewClient : Window
 {
-    public NovyKlient()
+    public NewClient()
     {
         InitializeComponent();
 
-        if (ZakaznikView.edit)
+        if (ClientsView.edit)
         {
             pridat.Content = "✔";
-            jmeno.Text = ZakaznikView.zakaznik.Jmeno;
-            prijmeni.Text = ZakaznikView.zakaznik.Prijmeni;
-            telefon.Text = ZakaznikView.zakaznik.Telefon;
-            email.Text = ZakaznikView.zakaznik.Email;
-            adresa.Text = ZakaznikView.zakaznik.Adresa;
-            poznamka.Text = ZakaznikView.zakaznik.Poznamky;
+            jmeno.Text = ClientsView.zakaznik.Jmeno;
+            prijmeni.Text = ClientsView.zakaznik.Prijmeni;
+            telefon.Text = ClientsView.zakaznik.Telefon;
+            email.Text = ClientsView.zakaznik.Email;
+            adresa.Text = ClientsView.zakaznik.Adresa;
+            poznamka.Text = ClientsView.zakaznik.Poznamky;
         }
     }
 
-    private void pridat_Click(object sender, RoutedEventArgs e)
+    private void AddClick(object sender, RoutedEventArgs e)
     {
         // Check if all required fields are entered
         if (string.IsNullOrEmpty(jmeno.Text) ||
@@ -41,8 +41,8 @@ public partial class NovyKlient : Window
         }
 
         // Validate email format
-        var emailPattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-        var phonePattern = @"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
+        const string emailPattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+        const string phonePattern = @"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
 
         if (!Regex.IsMatch(email.Text, emailPattern))
         {
@@ -56,14 +56,14 @@ public partial class NovyKlient : Window
             return;
         }
 
-        if (ZakaznikView.edit)
+        if (ClientsView.edit)
         {
-            Dispatcher.Invoke(() => ZakaznikView.zakaznik.Jmeno = jmeno.Text);
-            Dispatcher.Invoke(() => ZakaznikView.zakaznik.Prijmeni = prijmeni.Text);
-            Dispatcher.Invoke(() => ZakaznikView.zakaznik.Telefon = telefon.Text);
-            Dispatcher.Invoke(() => ZakaznikView.zakaznik.Email = email.Text);
-            Dispatcher.Invoke(() => ZakaznikView.zakaznik.Adresa = adresa.Text);
-            Dispatcher.Invoke(() => ZakaznikView.zakaznik.Poznamky = poznamka.Text);
+            Dispatcher.Invoke(() => ClientsView.zakaznik.Jmeno = jmeno.Text);
+            Dispatcher.Invoke(() => ClientsView.zakaznik.Prijmeni = prijmeni.Text);
+            Dispatcher.Invoke(() => ClientsView.zakaznik.Telefon = telefon.Text);
+            Dispatcher.Invoke(() => ClientsView.zakaznik.Email = email.Text);
+            Dispatcher.Invoke(() => ClientsView.zakaznik.Adresa = adresa.Text);
+            Dispatcher.Invoke(() => ClientsView.zakaznik.Poznamky = poznamka.Text);
         }
         else
         {
@@ -79,14 +79,14 @@ public partial class NovyKlient : Window
             }));
         }
 
-        ZakaznikView.edit = Dispatcher.Invoke(() => false);
-        ZakaznikView.zakaznik = null!;
+        ClientsView.edit = Dispatcher.Invoke(() => false);
+        ClientsView.zakaznik = null!;
 
         Dispatcher.Invoke(() => GetWindow(this)!.Close());
     }
 
 
-    private void konec_Click(object sender, RoutedEventArgs e)
+    private void ClientEndClick(object sender, RoutedEventArgs e)
     {
         Dispatcher.Invoke(() => GetWindow(this)!.Close());
     }

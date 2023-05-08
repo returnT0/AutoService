@@ -4,7 +4,7 @@ using System.Windows;
 using Autoservis.Model;
 using Autoservis.ViewModel;
 
-namespace Autoservis.Views;
+namespace Autoservice.Views;
 
 /// <summary>
 ///     Interaction logic for NoveAuto.xaml
@@ -72,7 +72,7 @@ public partial class NoveAuto : Window
                 Spz = Dispatcher.Invoke(() => spz.Text),
                 Vin = Dispatcher.Invoke(() => vin.Text),
                 Barva = Dispatcher.Invoke(() => barva.Text),
-                IdKlienta = Dispatcher.Invoke(() => ZakaznikView.seznamVybranyZakaznik.First().Id)
+                IdKlienta = Dispatcher.Invoke(() => ClientsView.seznamVybranyZakaznik.First().Id)
             }));
         }
 

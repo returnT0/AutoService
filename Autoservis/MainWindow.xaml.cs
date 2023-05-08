@@ -1,7 +1,7 @@
 ﻿using Autoservis.Manager;
 using Autoservis.Model;
 using Autoservis.ViewModel;
-using Autoservis.Views;
+using Autoservice.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +30,10 @@ namespace Autoservis
         }
         private void ZakaznikViewControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ServisViewModel.SeznamServisu = ZakaznikView.servisMng.GetAllServis();
-            ZakaznikViewModel.Zakaznici = ZakaznikView.klientMng.GetAllKlient();
-            AutoViewModel.Auta = ZakaznikView.autoMng.GetAllAuto();
-            CenaViewModel.SeznamCenaServisu = ZakaznikView.cenaMng.GetAllCena();
+            ServisViewModel.SeznamServisu = ClientsView.servisMng.GetAllServis();
+            ZakaznikViewModel.Zakaznici = ClientsView.klientMng.GetAllKlient();
+            AutoViewModel.Auta = ClientsView.autoMng.GetAllAuto();
+            CenaViewModel.SeznamCenaServisu = ClientsView.cenaMng.GetAllCena();
 
         }
 

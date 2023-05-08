@@ -4,12 +4,12 @@
    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
    xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
    xmlns:local = "clr-namespace:Autoservis"
-   xmlns:views = "clr-namespace:Autoservis.Views"
+   xmlns:views = "clr-namespace:Autoservice.Views"
    mc:Ignorable = "d"
    Title = "Autoservis" Height = "500" Width = "800">
 
     <Grid>
-        <views:ZakaznikView x:Name = "ZakaznikViewControl"/>
+        <views:ClientsView x:Name = "ZakaznikViewControl"/>
         <!--<views:AutoView x:Name = "ZakaznikViewControl" Loaded = "AutoViewControl_Loaded"/>-->
         <!--<views:ServisView x:Name = "ZakaznikViewControl" Loaded = "ServisViewControl_Loaded"/>-->
         <!--<views:PridejKlientaView x:Name = "ZakaznikViewControl" Loaded = "PridejViewControl_Loaded"/>-->
