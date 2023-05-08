@@ -72,7 +72,7 @@ public partial class NoveAuto : Window
                 Spz = Dispatcher.Invoke(() => spz.Text),
                 Vin = Dispatcher.Invoke(() => vin.Text),
                 Barva = Dispatcher.Invoke(() => barva.Text),
-                IdKlienta = Dispatcher.Invoke(() => ClientsView.seznamVybranyZakaznik.First().Id)
+                IdKlienta = Dispatcher.Invoke(() => ClientsView.ClientsList.First().Id)
             }));
         }
 

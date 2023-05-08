@@ -6,7 +6,7 @@
    xmlns:local = "clr-namespace:Autoservis"
    xmlns:views = "clr-namespace:Autoservice.Views"
    mc:Ignorable = "d"
-   Title = "Autoservis" Height = "500" Width = "800">
+   Title = "Autoservis" Height = "500" Width = "820">
 
     <Grid>
         <views:ClientsView x:Name = "ZakaznikViewControl"/>

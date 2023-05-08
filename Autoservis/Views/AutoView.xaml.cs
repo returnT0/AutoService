@@ -24,9 +24,9 @@ public partial class AutoView : UserControl
     public AutoView()
     {
         InitializeComponent();
-        lvZakaznik.ItemsSource = Dispatcher.Invoke(() => ClientsView.seznamVybranyZakaznik);
+        lvZakaznik.ItemsSource = Dispatcher.Invoke(() => ClientsView.ClientsList);
         lvAuta.ItemsSource =
-            Dispatcher.Invoke(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.zakaznik.Id));
+            Dispatcher.Invoke(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.Zakaznik.Id));
         Dispatcher.Invoke(() => lvAuta.Items.Refresh());
     }
 
@@ -60,7 +60,7 @@ public partial class AutoView : UserControl
             Dispatcher.Invoke(() => oknoNoveAuto.Show());
             while (!isWindowClosed) Thread.Sleep(100);
             Dispatcher.Invoke(() =>
-                lvAuta.ItemsSource = AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.zakaznik.Id));
+                lvAuta.ItemsSource = AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.Zakaznik.Id));
         });
         threadOpen.Start();
     }
@@ -84,7 +84,7 @@ public partial class AutoView : UserControl
     private async Task RefreshAutoListViewAsync()
     {
         lvAuta.ItemsSource =
-            await Task.Run(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.zakaznik.Id));
+            await Task.Run(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.Zakaznik.Id));
     }
 
     private async void EditButtonClick(object sender, RoutedEventArgs e)

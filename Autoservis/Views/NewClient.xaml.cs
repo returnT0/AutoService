@@ -15,15 +15,15 @@ public partial class NewClient : Window
     {
         InitializeComponent();
 
-        if (ClientsView.edit)
+        if (ClientsView.Edit)
         {
             pridat.Content = "✔";
-            jmeno.Text = ClientsView.zakaznik.Jmeno;
-            prijmeni.Text = ClientsView.zakaznik.Prijmeni;
-            telefon.Text = ClientsView.zakaznik.Telefon;
-            email.Text = ClientsView.zakaznik.Email;
-            adresa.Text = ClientsView.zakaznik.Adresa;
-            poznamka.Text = ClientsView.zakaznik.Poznamky;
+            jmeno.Text = ClientsView.Zakaznik.Jmeno;
+            prijmeni.Text = ClientsView.Zakaznik.Prijmeni;
+            telefon.Text = ClientsView.Zakaznik.Telefon;
+            email.Text = ClientsView.Zakaznik.Email;
+            adresa.Text = ClientsView.Zakaznik.Adresa;
+            poznamka.Text = ClientsView.Zakaznik.Poznamky;
         }
     }
 
@@ -56,14 +56,14 @@ public partial class NewClient : Window
             return;
         }
 
-        if (ClientsView.edit)
+        if (ClientsView.Edit)
         {
-            Dispatcher.Invoke(() => ClientsView.zakaznik.Jmeno = jmeno.Text);
-            Dispatcher.Invoke(() => ClientsView.zakaznik.Prijmeni = prijmeni.Text);
-            Dispatcher.Invoke(() => ClientsView.zakaznik.Telefon = telefon.Text);
-            Dispatcher.Invoke(() => ClientsView.zakaznik.Email = email.Text);
-            Dispatcher.Invoke(() => ClientsView.zakaznik.Adresa = adresa.Text);
-            Dispatcher.Invoke(() => ClientsView.zakaznik.Poznamky = poznamka.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik.Jmeno = jmeno.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik.Prijmeni = prijmeni.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik.Telefon = telefon.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik.Email = email.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik.Adresa = adresa.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik.Poznamky = poznamka.Text);
         }
         else
         {
@@ -79,8 +79,8 @@ public partial class NewClient : Window
             }));
         }
 
-        ClientsView.edit = Dispatcher.Invoke(() => false);
-        ClientsView.zakaznik = null!;
+        ClientsView.Edit = Dispatcher.Invoke(() => false);
+        ClientsView.Zakaznik = null!;
 
         Dispatcher.Invoke(() => GetWindow(this)!.Close());
     }

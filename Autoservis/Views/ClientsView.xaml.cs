@@ -1,7 +1,6 @@
 ﻿// Purpose: Contains logic for ClientsView.xaml
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -10,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Autoservis;
 using Autoservis.Manager;
 using Autoservis.Model;
@@ -24,10 +24,10 @@ namespace Autoservice.Views;
 public partial class ClientsView : UserControl
 
 {
-    public static ObservableCollection<Zakaznik> seznamVybranyZakaznik = new();
+    public static readonly ObservableCollection<Zakaznik?> ClientsList = new();
 
-    public static Zakaznik zakaznik;
-    public static bool edit;
+    public static Zakaznik? Zakaznik;
+    public static bool Edit;
 
     public ClientsView()
     {
@@ -43,8 +43,7 @@ public partial class ClientsView : UserControl
         AutoViewModel.Auta = autoMng.GetAllAuto();
         CenaViewModel.SeznamCenaServisu = cenaMng.GetAllCena();
 
-        lvZakaznici.ItemsSource = ZakaznikViewModel.Zakaznici;
-        
+        lvClients.ItemsSource = ZakaznikViewModel.Zakaznici;
     }
 
     public static KlientMng klientMng { get; set; }
@@ -52,9 +51,27 @@ public partial class ClientsView : UserControl
     public static ServisMng servisMng { get; set; }
     public static CenaMng cenaMng { get; set; }
 
-    private static void Reminder()
+    private void LV_Clients_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        MessageBox.Show("Don't forget to Save data!!", "Reminder", MessageBoxButton.OK, MessageBoxImage.Warning);
+        var threadOpen = new Thread(() =>
+        {
+            Zakaznik = Dispatcher.Invoke(() => (Zakaznik)lvClients.SelectedItem);
+            var autoWindow = Dispatcher.Invoke(() => new AutoWindow());
+            Dispatcher.Invoke(() => ClientsList.Clear());
+            Dispatcher.Invoke(() => ClientsList.Add(Zakaznik));
+            Dispatcher.Invoke(() => autoWindow.Show());
+        });
+        threadOpen.Start();
+    }
+
+    private void LV_Clients_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+    }
+    
+    private async Task RefreshListViewAsync()
+    {
+        await Task.Delay(100); // Wait for 100ms to ensure that the UI has time to update
+        CollectionViewSource.GetDefaultView(lvClients.ItemsSource).Refresh();
     }
 
     private void Add_Button_Click(object sender, RoutedEventArgs e)
@@ -65,7 +82,7 @@ public partial class ClientsView : UserControl
             var newClient = Dispatcher.Invoke(() => new NewClient());
             newClient.Closed += (s, args) => isWindowClosed = true;
             Dispatcher.Invoke(() => newClient.Show());
-            Dispatcher.Invoke(() => lvZakaznici.Items.Refresh());
+            Dispatcher.Invoke(() => lvClients.Items.Refresh());
 
             while (!isWindowClosed) Thread.Sleep(100);
 
@@ -74,47 +91,24 @@ public partial class ClientsView : UserControl
         threadOpen.Start();
     }
 
-    private void LV_Clients_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-        var threadOpen = new Thread(() =>
-        {
-            zakaznik = Dispatcher.Invoke(() => (Zakaznik)lvZakaznici.SelectedItem);
-            var autoWindow = Dispatcher.Invoke(() => new AutoWindow());
-            Dispatcher.Invoke(() => seznamVybranyZakaznik.Clear());
-            Dispatcher.Invoke(() => seznamVybranyZakaznik.Add(zakaznik));
-            Dispatcher.Invoke(() => autoWindow.Show());
-        });
-        threadOpen.Start();
-    }
-
-    private void LV_Clients_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-    }
-
     private async void Remove_Button_Click(object sender, RoutedEventArgs e)
     {
-        var selectedItem = (Zakaznik)lvZakaznici.SelectedItem;
+        var selectedItem = (Zakaznik)lvClients.SelectedItem;
 
         ZakaznikViewModel.Zakaznici.Remove(selectedItem);
         await RefreshListViewAsync();
-        MessageBox.Show($"Uživatel {selectedItem.Jmeno} byl odstraněn.");
-        Thread.Sleep(1000);
+        MessageBox.Show($"Uživatel {selectedItem.Jmeno} byl odstraněn.","Success", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
-    private async Task RefreshListViewAsync()
-    {
-        await Task.Delay(100); // Wait for 100ms to ensure that the UI has time to update
-        CollectionViewSource.GetDefaultView(lvZakaznici.ItemsSource).Refresh();
-    }
     private async void Edit_Button_Click(object sender, RoutedEventArgs e)
     {
-        if (lvZakaznici.SelectedItems.Count > 0)
+        if (lvClients.SelectedItems.Count > 0)
         {
-            edit = true;
-            zakaznik = (Zakaznik)lvZakaznici.SelectedItem;
+            Edit = true;
+            Zakaznik = (Zakaznik)lvClients.SelectedItem;
             var editClientWindow = new NewClient();
             editClientWindow.Show();
-            await Task.Run(() => lvZakaznici.Dispatcher.Invoke(() => lvZakaznici.Items.Refresh()));
+            await RefreshListViewAsync();
         }
         else
         {
@@ -122,31 +116,16 @@ public partial class ClientsView : UserControl
         }
     }
     
-    private void RefreshViewClick(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            lvZakaznici.ItemsSource = ZakaznikViewModel.Zakaznici;
-            lvZakaznici.Items.Refresh();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}", "Error");
-        }
-    }
-
-
-    //Uloz do db
     private async void Save_Button_Click(object sender, RoutedEventArgs e)
     {
         try
         {
             await SaveDataAsync();
-            MessageBox.Show("Data saved successfully.", "Save");
+            MessageBox.Show("Data saved successfully.", "Save", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error saving data: {ex.Message}", "Save Error");
+            MessageBox.Show($"Error saving data: {ex.Message}", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -165,16 +144,15 @@ public partial class ClientsView : UserControl
             cenaMng.AddAllCena(CenaViewModel.SeznamCenaServisu);
         });
     }
-
-
+    
     private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         var searchText = (sender as TextBox)!.Text.Trim();
 
         if (searchText.Length == 0)
         {
-            lvZakaznici.ItemsSource = ZakaznikViewModel.Zakaznici;
-            lvZakaznici.Items.Refresh();
+            lvClients.ItemsSource = ZakaznikViewModel.Zakaznici;
+            lvClients.Items.Refresh();
             return;
         }
 
@@ -183,15 +161,48 @@ public partial class ClientsView : UserControl
             z.Prijmeni.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
             z.Email.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
 
-        lvZakaznici.ItemsSource = filteredList;
-        lvZakaznici.Items.Refresh();
+        lvClients.ItemsSource = filteredList;
+        lvClients.Items.Refresh();
+    }
+    
+    private void RefreshViewClick(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            lvClients.ItemsSource = ZakaznikViewModel.Zakaznici;
+            lvClients.Items.Refresh();
+
+            // Create a new DispatcherTimer object
+            var timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(0.5); // Set the delay time to .5 second
+            timer.Tick += Timer_Tick; 
+
+            timer.Start();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
+    private void Timer_Tick(object sender, EventArgs e)
+    {
+        var timer = (DispatcherTimer)sender;
+        timer.Stop();
+
+        MessageBox.Show("View refreshed successfully!", "Success",MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+    
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
         ExitApplication();
     }
-
+    
+    private static void Reminder()
+    {
+        MessageBox.Show("Don't forget to Save data!!", "Reminder", MessageBoxButton.OK, MessageBoxImage.Warning);
+    }
+    
     private static void ExitApplication()
     {
         Reminder();
@@ -199,5 +210,4 @@ public partial class ClientsView : UserControl
             MessageBoxButton.YesNo, MessageBoxImage.Question);
         if (result == MessageBoxResult.Yes) Application.Current.Shutdown();
     }
-
 }
