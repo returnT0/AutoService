@@ -1,10 +1,9 @@
 ﻿<UserControl x:Class="Autoservice.Views.ServiceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Autoservice.Views" xmlns:model="clr-namespace:Autoservice.Model"
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              d:DesignHeight="1000" d:DesignWidth="940">
     <UserControl.Resources>
         <Style x:Key="HoverButtonStyle" TargetType="{x:Type Button}">
@@ -33,55 +32,62 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel  Orientation = "Horizontal" Margin="00,80,0,0">
+        <StackPanel Orientation="Horizontal" Margin="00,80,0,0">
             <StackPanel>
-            <ListView Name="lvServis" Margin="10,10,10,10" Height="330" BorderBrush="#000000" BorderThickness="3" 
-                      HorizontalAlignment="Left" Width="440" HorizontalContentAlignment="Left" SelectionChanged="LV_Service_SelectionChanged">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Defect"  Width="120" DisplayMemberBinding="{Binding Path= Zavada}" />
-                        <GridViewColumn Header="Date" Width="100" DisplayMemberBinding="{Binding Path= DatumServisu}" />
-                        <GridViewColumn Header="Tachometer" Width="100" DisplayMemberBinding="{Binding Path= Tachometr}" />
-                        <GridViewColumn Header="Tank capacity" Width="100" DisplayMemberBinding="{Binding Path= PlnostNadrze}" />
-
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="0,10,0,0">
-                <ListView  Name="lvCena" Margin="0" BorderBrush="#000000" Height="330" BorderThickness="3" 
-                           ItemsSource="{Binding Path=Cena}" HorizontalAlignment="Left" Width="200" HorizontalContentAlignment="Left">
+                <ListView Name="lvServis" Margin="10,10,10,10" Height="330" BorderBrush="#000000" BorderThickness="3"
+                          HorizontalAlignment="Left" Width="440" HorizontalContentAlignment="Left"
+                          SelectionChanged="LV_Service_SelectionChanged">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Item" Width="100" DisplayMemberBinding="{Binding Path= Polozka}" />
-                            <GridViewColumn Header="Price" Width="100" DisplayMemberBinding="{Binding Path= CenaPolozky}" />
-                            </GridView>
+                            <GridViewColumn Header="Defect" Width="120" DisplayMemberBinding="{Binding Path= Zavada}" />
+                            <GridViewColumn Header="Date" Width="100"
+                                            DisplayMemberBinding="{Binding Path= DatumServisu}" />
+                            <GridViewColumn Header="Tachometer" Width="100"
+                                            DisplayMemberBinding="{Binding Path= Tachometr}" />
+                            <GridViewColumn Header="Tank capacity" Width="100"
+                                            DisplayMemberBinding="{Binding Path= PlnostNadrze}" />
+
+                        </GridView>
                     </ListView.View>
                 </ListView>
             </StackPanel>
-            <StackPanel Orientation="Vertical" >
+            <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+                <ListView Name="lvCena" Margin="0" BorderBrush="#000000" Height="330" BorderThickness="3"
+                          ItemsSource="{Binding Path=Cena}" HorizontalAlignment="Left" Width="200"
+                          HorizontalContentAlignment="Left">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Item" Width="100" DisplayMemberBinding="{Binding Path= Polozka}" />
+                            <GridViewColumn Header="Price" Width="100"
+                                            DisplayMemberBinding="{Binding Path= CenaPolozky}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" Margin="20">
-                    <StackPanel  Orientation = "Vertical" Margin="00,00,0,0">
+                    <StackPanel Orientation="Vertical" Margin="00,00,0,0">
                         <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="20,-10,0,0">Service</Label>
-                        <Button Content="Add📥" Style="{StaticResource HoverButtonStyle}" Click="AddServiceClick"/>
-                        <Button Content="Edit📝" Style="{StaticResource HoverButtonStyle}" Click="EditServiceClick"/>
-                        <Button Content="Delete🗑" Style="{StaticResource HoverButtonStyle}" Click="RemoveServiceClick"/>
-                
+                        <Button Content="Add📥" Style="{StaticResource HoverButtonStyle}" Click="AddServiceClick" />
+                        <Button Content="Edit📝" Style="{StaticResource HoverButtonStyle}" Click="EditServiceClick" />
+                        <Button Content="Delete🗑" Style="{StaticResource HoverButtonStyle}" Click="RemoveServiceClick" />
+
                     </StackPanel>
-                    <StackPanel  Orientation = "Vertical" Margin="0,0,0,0">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,0">
                         <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="20,-10,0,0">Item</Label>
-                        <Button Content="Add📥" Style="{StaticResource HoverButtonStyle}" Click="AddItemClick"/>
-                        <Button Content="Edit📝" Style="{StaticResource HoverButtonStyle}" Click="EditItemClick"/>
-                        <Button Content="Delete🗑" Style="{StaticResource HoverButtonStyle}" Click="RemoveItemClick"/>
-                
+                        <Button Content="Add📥" Style="{StaticResource HoverButtonStyle}" Click="AddItemClick" />
+                        <Button Content="Edit📝" Style="{StaticResource HoverButtonStyle}" Click="EditItemClick" />
+                        <Button Content="Delete🗑" Style="{StaticResource HoverButtonStyle}" Click="RemoveItemClick" />
+
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="15,110,0,0" Height="50">
-                    <Button Content="↩" Style="{StaticResource HoverButtonStyle}" FontSize="30" Margin="0,0,0,0" Width="50" Height="50" Click="BackToAutoViewClick"/>
-                    <Button Content="☠" Style="{StaticResource HoverButtonStyle}" FontSize="30" Margin="15, 0,0,0" Width="50" Height="50" Click="CloseAppClick"/>
+                    <Button Content="↩" Style="{StaticResource HoverButtonStyle}" FontSize="30" Margin="0,0,0,0"
+                            Width="50" Height="50" Click="BackToAutoViewClick" />
+                    <Button Content="☠" Style="{StaticResource HoverButtonStyle}" FontSize="30" Margin="15, 0,0,0"
+                            Width="50" Height="50" Click="CloseAppClick" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
-
