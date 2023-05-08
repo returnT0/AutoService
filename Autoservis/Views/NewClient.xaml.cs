@@ -29,7 +29,6 @@ public partial class NewClient : Window
 
     private void AddClick(object sender, RoutedEventArgs e)
     {
-        // Check if all required fields are entered
         if (string.IsNullOrEmpty(jmeno.Text) ||
             string.IsNullOrEmpty(prijmeni.Text) ||
             string.IsNullOrEmpty(email.Text) ||
@@ -40,7 +39,6 @@ public partial class NewClient : Window
             return;
         }
 
-        // Validate email format
         const string emailPattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
         const string phonePattern = @"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
 
@@ -58,12 +56,12 @@ public partial class NewClient : Window
 
         if (ClientsView.Edit)
         {
-            Dispatcher.Invoke(() => ClientsView.Zakaznik.Jmeno = jmeno.Text);
-            Dispatcher.Invoke(() => ClientsView.Zakaznik.Prijmeni = prijmeni.Text);
-            Dispatcher.Invoke(() => ClientsView.Zakaznik.Telefon = telefon.Text);
-            Dispatcher.Invoke(() => ClientsView.Zakaznik.Email = email.Text);
-            Dispatcher.Invoke(() => ClientsView.Zakaznik.Adresa = adresa.Text);
-            Dispatcher.Invoke(() => ClientsView.Zakaznik.Poznamky = poznamka.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik!.Jmeno = jmeno.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik!.Prijmeni = prijmeni.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik!.Telefon = telefon.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik!.Email = email.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik!.Adresa = adresa.Text);
+            Dispatcher.Invoke(() => ClientsView.Zakaznik!.Poznamky = poznamka.Text);
         }
         else
         {

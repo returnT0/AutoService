@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Autoservice;
 using Autoservice.Model;
 using Autoservice.ViewModel;
 
@@ -17,16 +16,16 @@ namespace Autoservice.Views;
 public partial class AutoView : UserControl
 
 {
-    public static ObservableCollection<Auto> seznamVybraneAuto = new();
-    public static Auto auto;
-    public static bool edit;
+    public static readonly ObservableCollection<Auto?> AutoList = new();
+    public static Auto? Auto;
+    public static bool Edit;
 
     public AutoView()
     {
         InitializeComponent();
         lvZakaznik.ItemsSource = Dispatcher.Invoke(() => ClientsView.ClientsList);
         lvAuta.ItemsSource =
-            Dispatcher.Invoke(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.Zakaznik.Id));
+            Dispatcher.Invoke(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.Zakaznik!.Id));
         Dispatcher.Invoke(() => lvAuta.Items.Refresh());
     }
 
@@ -36,15 +35,15 @@ public partial class AutoView : UserControl
         {
             if (Dispatcher.Invoke(() => lvAuta.SelectedItems.Count > 0))
             {
-                auto = Dispatcher.Invoke(() => (Auto)lvAuta.SelectedItem);
+                Auto = Dispatcher.Invoke(() => (Auto)lvAuta.SelectedItem);
                 var oknoSeznamServis = Dispatcher.Invoke(() => new ServiceWindow());
-                Dispatcher.Invoke(() => seznamVybraneAuto.Clear());
-                Dispatcher.Invoke(() => seznamVybraneAuto.Add(auto));
+                Dispatcher.Invoke(() => AutoList.Clear());
+                Dispatcher.Invoke(() => AutoList.Add(Auto));
                 Dispatcher.Invoke(() => oknoSeznamServis.Show());
             }
             else
             {
-                MessageBox.Show("Není vybráno auto", "Chyba");
+                MessageBox.Show("Unspecified choice!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         });
         threadDoubleClick.Start();
@@ -55,9 +54,9 @@ public partial class AutoView : UserControl
         var threadOpen = new Thread(() =>
         {
             var isWindowClosed = false;
-            var oknoNoveAuto = Dispatcher.Invoke(() => new NewAuto());
-            oknoNoveAuto.Closed += (s, args) => isWindowClosed = true;
-            Dispatcher.Invoke(() => oknoNoveAuto.Show());
+            var newAutoWindow = Dispatcher.Invoke(() => new NewAuto());
+            newAutoWindow.Closed += (s, args) => isWindowClosed = true;
+            Dispatcher.Invoke(() => newAutoWindow.Show());
             while (!isWindowClosed) Thread.Sleep(100);
             Dispatcher.Invoke(() =>
                 lvAuta.ItemsSource = AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.Zakaznik.Id));
@@ -77,30 +76,30 @@ public partial class AutoView : UserControl
         }
         else
         {
-            MessageBox.Show("Auto není vybráno", "Chyba");
+            MessageBox.Show("Unspecified choice!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
     private async Task RefreshAutoListViewAsync()
     {
         lvAuta.ItemsSource =
-            await Task.Run(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.Zakaznik.Id));
+            await Task.Run(() => AutoViewModel.Auta.Where(x => x.IdKlienta == ClientsView.Zakaznik!.Id));
     }
 
     private async void EditButtonClick(object sender, RoutedEventArgs e)
     {
         if (lvAuta.SelectedItems.Count > 0)
         {
-            edit = true;
-            auto = (Auto)lvAuta.SelectedItem;
-            var oknoNoveAuto = new NewAuto();
-            oknoNoveAuto.ShowDialog();
-            edit = false;
+            Edit = true;
+            Auto = (Auto)lvAuta.SelectedItem;
+            var editAutoWindow = new NewAuto();
+            editAutoWindow.ShowDialog();
+            Edit = false;
             await Task.Run(() => lvAuta.Dispatcher.Invoke(() => lvAuta.Items.Refresh()));
         }
         else
         {
-            MessageBox.Show("Auto není vybráno", "Chyba");
+            MessageBox.Show("Unspecified choice!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -108,12 +107,11 @@ public partial class AutoView : UserControl
     private void CloseWindow()
     {
         var parentWindow = Window.GetWindow(this);
-        if (parentWindow != null) parentWindow.Close();
+        parentWindow?.Close();
     }
 
-    private void BackToZakazniki_Click(object sender, RoutedEventArgs e)
+    private void BackToClientsClick(object sender, RoutedEventArgs e)
     {
         CloseWindow();
     }
-    
 }

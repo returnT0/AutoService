@@ -14,27 +14,27 @@ public partial class NewAuto : Window
     public NewAuto()
     {
         InitializeComponent();
-        if (AutoView.edit)
+        if (AutoView.Edit)
         {
-            znackaVozu.Text = AutoView.auto.ZnackaVozu;
-            modelVozu.Text = AutoView.auto.ModelVozu;
-            spz.Text = AutoView.auto.Spz;
-            vin.Text = AutoView.auto.Vin;
-            barva.Text = AutoView.auto.Barva;
+            znackaVozu.Text = AutoView.Auto!.ZnackaVozu;
+            modelVozu.Text = AutoView.Auto.ModelVozu;
+            spz.Text = AutoView.Auto.Spz;
+            vin.Text = AutoView.Auto.Vin;
+            barva.Text = AutoView.Auto.Barva;
             pridat.Content = "✔";
         }
     }
 
     private void AddClick(object sender, RoutedEventArgs e)
     {
-        // Check if all required fields are entered
         if (string.IsNullOrEmpty(znackaVozu.Text) ||
             string.IsNullOrEmpty(modelVozu.Text) ||
             string.IsNullOrEmpty(spz.Text) ||
             string.IsNullOrEmpty(vin.Text) ||
             string.IsNullOrEmpty(barva.Text))
         {
-            Dispatcher.Invoke(() => MessageBox.Show("Please enter all required information."));
+            Dispatcher.Invoke(() => MessageBox.Show("Please enter all required information.", "Error",
+                MessageBoxButton.OK, MessageBoxImage.Error));
             return;
         }
 
@@ -44,23 +44,25 @@ public partial class NewAuto : Window
         if (!Regex.IsMatch(spz.Text, spzPattern))
         {
             Dispatcher.Invoke(() =>
-                MessageBox.Show("Please enter a valid SPZ number. (8 characters, capital letters and numbers only)"));
+                MessageBox.Show("Please enter a valid SPZ number. (8 characters, capital letters and numbers only)",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error));
             return;
         }
 
         if (!Regex.IsMatch(vin.Text, vinPattern))
         {
-            Dispatcher.Invoke(() => MessageBox.Show("Please enter a valid VIN number. (11-17 numbers only)"));
+            Dispatcher.Invoke(() => MessageBox.Show("Please enter a valid VIN number. (11-17 numbers only)", "Error",
+                MessageBoxButton.OK, MessageBoxImage.Error));
             return;
         }
 
-        if (AutoView.edit)
+        if (AutoView.Edit)
         {
-            Dispatcher.Invoke(() => AutoView.auto.ZnackaVozu = znackaVozu.Text);
-            Dispatcher.Invoke(() => AutoView.auto.ModelVozu = modelVozu.Text);
-            Dispatcher.Invoke(() => AutoView.auto.Spz = spz.Text);
-            Dispatcher.Invoke(() => AutoView.auto.Vin = vin.Text);
-            Dispatcher.Invoke(() => AutoView.auto.Barva = barva.Text);
+            Dispatcher.Invoke(() => AutoView.Auto!.ZnackaVozu = znackaVozu.Text);
+            Dispatcher.Invoke(() => AutoView.Auto!.ModelVozu = modelVozu.Text);
+            Dispatcher.Invoke(() => AutoView.Auto!.Spz = spz.Text);
+            Dispatcher.Invoke(() => AutoView.Auto!.Vin = vin.Text);
+            Dispatcher.Invoke(() => AutoView.Auto!.Barva = barva.Text);
         }
         else
         {
@@ -72,12 +74,12 @@ public partial class NewAuto : Window
                 Spz = Dispatcher.Invoke(() => spz.Text),
                 Vin = Dispatcher.Invoke(() => vin.Text),
                 Barva = Dispatcher.Invoke(() => barva.Text),
-                IdKlienta = Dispatcher.Invoke(() => ClientsView.ClientsList.First().Id)
+                IdKlienta = Dispatcher.Invoke(() => ClientsView.ClientsList.First()!.Id)
             }));
         }
 
-        AutoView.edit = Dispatcher.Invoke(() => false);
-        AutoView.auto = null!;
+        AutoView.Edit = Dispatcher.Invoke(() => false);
+        AutoView.Auto = null!;
 
         Dispatcher.Invoke(() => GetWindow(this)!.Close());
     }

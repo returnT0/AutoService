@@ -10,7 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Autoservice;
 using Autoservice.Manager;
 using Autoservice.Model;
 using Autoservice.Repository;
@@ -67,10 +66,10 @@ public partial class ClientsView : UserControl
     private void LV_Clients_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
     }
-    
+
     private async Task RefreshListViewAsync()
     {
-        await Task.Delay(100); // Wait for 100ms to ensure that the UI has time to update
+        await Task.Delay(100);
         CollectionViewSource.GetDefaultView(lvClients.ItemsSource).Refresh();
     }
 
@@ -80,7 +79,7 @@ public partial class ClientsView : UserControl
         {
             var isWindowClosed = false;
             var newClient = Dispatcher.Invoke(() => new NewClient());
-            newClient.Closed += (s, args) => isWindowClosed = true;
+            newClient.Closed += (_, _) => isWindowClosed = true;
             Dispatcher.Invoke(() => newClient.Show());
             Dispatcher.Invoke(() => lvClients.Items.Refresh());
 
@@ -97,7 +96,8 @@ public partial class ClientsView : UserControl
 
         ZakaznikViewModel.Zakaznici.Remove(selectedItem);
         await RefreshListViewAsync();
-        MessageBox.Show($"Uživatel {selectedItem.Jmeno} byl odstraněn.","Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show($"Client {selectedItem.Jmeno} was removed.", "Success", MessageBoxButton.OK,
+            MessageBoxImage.Information);
     }
 
     private async void Edit_Button_Click(object sender, RoutedEventArgs e)
@@ -115,7 +115,7 @@ public partial class ClientsView : UserControl
             MessageBox.Show("Undefined choice.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
-    
+
     private async void Save_Button_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -125,7 +125,8 @@ public partial class ClientsView : UserControl
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error saving data: {ex.Message}", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error saving data: {ex.Message}", "Save Error", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 
@@ -144,7 +145,7 @@ public partial class ClientsView : UserControl
             cenaMng.AddAllCena(CenaViewModel.SeznamCenaServisu);
         });
     }
-    
+
     private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         var searchText = (sender as TextBox)!.Text.Trim();
@@ -164,7 +165,7 @@ public partial class ClientsView : UserControl
         lvClients.ItemsSource = filteredList;
         lvClients.Items.Refresh();
     }
-    
+
     private void RefreshViewClick(object sender, RoutedEventArgs e)
     {
         try
@@ -172,10 +173,11 @@ public partial class ClientsView : UserControl
             lvClients.ItemsSource = ZakaznikViewModel.Zakaznici;
             lvClients.Items.Refresh();
 
-            // Create a new DispatcherTimer object
-            var timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(0.5); // Set the delay time to .5 second
-            timer.Tick += Timer_Tick; 
+            var timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(0.5) // Set the delay time to .5 second
+            };
+            timer.Tick += Timer_Tick!;
 
             timer.Start();
         }
@@ -190,19 +192,19 @@ public partial class ClientsView : UserControl
         var timer = (DispatcherTimer)sender;
         timer.Stop();
 
-        MessageBox.Show("View refreshed successfully!", "Success",MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show("View refreshed successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
     }
-    
+
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
         ExitApplication();
     }
-    
+
     private static void Reminder()
     {
         MessageBox.Show("Don't forget to Save data!!", "Reminder", MessageBoxButton.OK, MessageBoxImage.Warning);
     }
-    
+
     private static void ExitApplication()
     {
         Reminder();
