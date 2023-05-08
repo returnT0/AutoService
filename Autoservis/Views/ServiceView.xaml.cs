@@ -23,7 +23,7 @@ public partial class ServiceView : UserControl
         InitializeComponent();
         lvAuta.ItemsSource = Dispatcher.Invoke(() => AutoView.AutoList);
         lvServis.ItemsSource =
-            Dispatcher.Invoke(() => ServisViewModel.SeznamServisu.Where(x => x.IdAuto == AutoView.Auto.IdVozu));
+            Dispatcher.Invoke(() => ServisViewModel.SeznamServisu.Where(x => x.IdAuto == AutoView.Auto!.IdVozu));
 
         lvServis.Items.Refresh();
         lvCena.Items.Refresh();
@@ -72,7 +72,7 @@ public partial class ServiceView : UserControl
             }
             else
             {
-                MessageBox.Show("Není vybrán Service", "Chyba");
+                MessageBox.Show("Unspecified choice!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         });
         thread.Start();
@@ -130,7 +130,7 @@ public partial class ServiceView : UserControl
             }
             else
             {
-                MessageBox.Show("Není vybránä položka", "Chyba");
+                MessageBox.Show("Unspecified choice!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         });
         thread.Start();
@@ -152,7 +152,7 @@ public partial class ServiceView : UserControl
             }
             else
             {
-                MessageBox.Show("Není vybrán Service", "Chyba");
+                MessageBox.Show("Unspecified choice!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         });
         thread.Start();
