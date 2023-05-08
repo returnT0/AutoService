@@ -114,4 +114,22 @@ public partial class AutoView : UserControl
     {
         CloseWindow();
     }
+    
+    private void CloseAppClick(object sender, RoutedEventArgs e)
+    {
+        ExitApplication();
+    }
+
+    private static void Reminder()
+    {
+        MessageBox.Show("Don't forget to Save data!!", "Reminder", MessageBoxButton.OK, MessageBoxImage.Warning);
+    }
+
+    private static void ExitApplication()
+    {
+        Reminder();
+        var result = MessageBox.Show("Are you sure you want to exit the application?", "Confirmation",
+            MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (result == MessageBoxResult.Yes) Application.Current.Shutdown();
+    }
 }
