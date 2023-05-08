@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using Autoservice.Model;
@@ -17,48 +19,72 @@ public partial class NewService : Window
         InitializeComponent();
         if (!ServiceView.EditService) return;
         zavada.Text = ServiceView.Service.Zavada;
-        datumServiu.Text = ServiceView.Service.DatumServisu;
+        datumServisu.Text = ServiceView.Service.DatumServisu;
         tachometr.Text = ServiceView.Service.Tachometr + "";
         plnostNadrze.Text = ServiceView.Service.PlnostNadrze;
         add.Content = "✔";
     }
 
-    private void AddClick(object sender, RoutedEventArgs e)
+private void AddClick(object sender, RoutedEventArgs e)
+{
+    try
     {
-        try
+        // Check if all required fields are entered
+        if (string.IsNullOrWhiteSpace(zavada.Text) ||
+            string.IsNullOrWhiteSpace(datumServisu.Text) ||
+            string.IsNullOrWhiteSpace(tachometr.Text) ||
+            string.IsNullOrWhiteSpace(plnostNadrze.Text))
         {
-            var threadAdd = new Thread(() =>
-            {
-                if (ServiceView.EditService)
-                {
-                    Dispatcher.Invoke(() => ServiceView.Service.Zavada = zavada.Text);
-                    Dispatcher.Invoke(() => ServiceView.Service.DatumServisu = datumServiu.Text);
-                    Dispatcher.Invoke(() => ServiceView.Service.Tachometr = int.Parse(tachometr.Text));
-                    Dispatcher.Invoke(() => ServiceView.Service.PlnostNadrze = plnostNadrze.Text);
-                }
-                else
-                {
-                    Dispatcher.Invoke(() => ServisViewModel.SeznamServisu.Add(new Service
-                    {
-                        IdServis = Dispatcher.Invoke(() => ServisViewModel.SeznamServisu.Count() + 1),
-                        IdAuto = Dispatcher.Invoke(() => AutoView.auto.IdVozu),
-                        Zavada = Dispatcher.Invoke(() => zavada.Text),
-                        DatumServisu = Dispatcher.Invoke(() => datumServiu.Text),
-
-                        Tachometr = Dispatcher.Invoke(() => int.Parse(tachometr.Text)),
-                        PlnostNadrze = Dispatcher.Invoke(() => plnostNadrze.Text),
-                        PricePolozky = null
-                    }));
-                }
-
-                Dispatcher.Invoke(() => GetWindow(this).Close());
-            });
-            threadAdd.Start();
+            MessageBox.Show("Please enter all required information.", "Missing information", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
         }
-        catch (Exception)
+
+        // Validate input fields
+        int tachometer;
+        if (!int.TryParse(tachometr.Text, out tachometer))
         {
+            MessageBox.Show("Please enter a valid tachometer value.", "Invalid tachometer value", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        if (!Regex.IsMatch(datumServisu.Text, @"^(0[1-9]|[1-2]\d|3[0-1])\.(0[1-9]|1[0-2])\.\d{4}$"))
+        {
+            MessageBox.Show("Please enter a valid date format (dd.mm.yyyy).", "Invalid date format", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+        
+        // Add or edit the service
+        if (ServiceView.EditService)
+        {
+            ServiceView.Service.Zavada = zavada.Text;
+            ServiceView.Service.DatumServisu = datumServisu.Text;
+            ServiceView.Service.Tachometr = tachometer;
+            ServiceView.Service.PlnostNadrze = plnostNadrze.Text;
+        }
+        else
+        {
+            ServisViewModel.SeznamServisu.Add(new Service
+            {
+                IdServis = ServisViewModel.SeznamServisu.Count() + 1,
+                IdAuto = AutoView.auto.IdVozu,
+                Zavada = zavada.Text,
+                DatumServisu = datumServisu.Text,
+                Tachometr = tachometer,
+                PlnostNadrze = plnostNadrze.Text,
+                PricePolozky = null!
+            });
         }
     }
+    catch (Exception exception)
+    {
+        MessageBox.Show(exception.Message);
+    }
+    // Reset state and close the window
+        ServiceView.EditService = false;
+        ServiceView.Service = null;
+        GetWindow(this)?.Close();
+}
+
 
     private void CloseClick(object sender, RoutedEventArgs e)
     {

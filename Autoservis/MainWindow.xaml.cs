@@ -28,7 +28,7 @@ namespace Autoservice
         {
             InitializeComponent();
         }
-        private void ZakaznikViewControl_Loaded(object sender, RoutedEventArgs e)
+        private void ClientViewControlLoaded(object sender, RoutedEventArgs e)
         {
             ServisViewModel.SeznamServisu = ClientsView.servisMng.GetAllServis();
             ZakaznikViewModel.Zakaznici = ClientsView.klientMng.GetAllKlient();
@@ -39,7 +39,7 @@ namespace Autoservice
 
      
 
-        private void PridejViewControl_Loaded(object sender, RoutedEventArgs e)
+        private void AddViewControlLoaded(object sender, RoutedEventArgs e)
         {
             ZakaznikViewModel autoViewModelObject =
                new ZakaznikViewModel();
@@ -47,7 +47,7 @@ namespace Autoservice
             ZakaznikViewControl.DataContext = autoViewModelObject;
         }
 
-        private void PridejKlienta_Loaded(object sender, RoutedEventArgs e)
+        private void AddClientLoaded(object sender, RoutedEventArgs e)
         {
             ZakaznikViewModel autoViewModelObject =
                new ZakaznikViewModel();

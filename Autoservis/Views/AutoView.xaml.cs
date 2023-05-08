@@ -55,7 +55,7 @@ public partial class AutoView : UserControl
         var threadOpen = new Thread(() =>
         {
             var isWindowClosed = false;
-            var oknoNoveAuto = Dispatcher.Invoke(() => new NoveAuto());
+            var oknoNoveAuto = Dispatcher.Invoke(() => new NewAuto());
             oknoNoveAuto.Closed += (s, args) => isWindowClosed = true;
             Dispatcher.Invoke(() => oknoNoveAuto.Show());
             while (!isWindowClosed) Thread.Sleep(100);
@@ -93,7 +93,7 @@ public partial class AutoView : UserControl
         {
             edit = true;
             auto = (Auto)lvAuta.SelectedItem;
-            var oknoNoveAuto = new NoveAuto();
+            var oknoNoveAuto = new NewAuto();
             oknoNoveAuto.ShowDialog();
             edit = false;
             await Task.Run(() => lvAuta.Dispatcher.Invoke(() => lvAuta.Items.Refresh()));

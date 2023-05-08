@@ -23,47 +23,72 @@ public partial class NovaCena : Window
 
     private void AddClick(object sender, RoutedEventArgs e)
     {
-        var threadAdd = new Thread(() =>
+        // Check if all required fields are entered
+        if (string.IsNullOrEmpty(item.Text) || string.IsNullOrEmpty(price.Text))
         {
-            if (ServiceView.EditItem)
-            {
-                try
-                {
-                    Dispatcher.Invoke(() => ServiceView.Price.Polozka = item.Text);
-                    Dispatcher.Invoke(() => ServiceView.Price.CenaPolozky = int.Parse(price.Text));
-                    Dispatcher.Invoke(() => GetWindow(this).Close());
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Chybne vyplněno" + e, "Chyba");
-                }
-            }
-            else
-            {
-                var prevodCena = 0;
+            Dispatcher.Invoke(() => MessageBox.Show("Please enter all required information. ", "Missing information", 
+                MessageBoxButton.OK, MessageBoxImage.Error));
+            return;
+        }
 
-                if (Dispatcher.Invoke(() => int.TryParse(price.Text, out prevodCena)))
+        if (ServiceView.EditItem)
+        {
+            try
+            {
+                // Validate input
+                var itemPrice = int.Parse(price.Text);
+                if (itemPrice <= 0)
                 {
-                    Dispatcher.Invoke(() => CenaViewModel.SeznamCenaServisu.Add(new Price
-                    {
-                        Polozka = Dispatcher.Invoke(() => item.Text),
-                        CenaPolozky = Dispatcher.Invoke(() => int.Parse(price.Text)),
-                        IdServisu = Dispatcher.Invoke(() => ServiceView.Service.IdServis)
-                    }));
-                    Dispatcher.Invoke(() => GetWindow(this).Close());
+                    Dispatcher.Invoke(() => MessageBox.Show("Please enter a valid price. ", "Error", 
+                        MessageBoxButton.OK, MessageBoxImage.Error));
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show("Chybně vyplněno" + e, "Chyba");
-                }
+
+                // Update existing item
+                Dispatcher.Invoke(() => ServiceView.Price.Polozka = item.Text);
+                Dispatcher.Invoke(() => ServiceView.Price.CenaPolozky = itemPrice);
+                Dispatcher.Invoke(() => GetWindow(this)!.Close());
             }
-        });
-        threadAdd.Start();
+            catch (Exception ex)
+            {
+                Dispatcher.Invoke(() => MessageBox.Show("Please enter a valid price. " + ex.Message, "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error));
+            }
+        }
+        else
+        {
+            try
+            {
+                // Validate input
+                var itemPrice = int.Parse(price.Text);
+                if (itemPrice <= 0)
+                {
+                    Dispatcher.Invoke(() => MessageBox.Show("Please enter a valid price.", "Error", 
+                        MessageBoxButton.OK, MessageBoxImage.Error));
+                    return;
+                }
+
+                // Add new item
+                var priceNew = new Price
+                {
+                    Polozka = Dispatcher.Invoke(() => item.Text),
+                    CenaPolozky = itemPrice,
+                    IdServisu = Dispatcher.Invoke(() => ServiceView.Service.IdServis)
+                };
+                Dispatcher.Invoke(() => CenaViewModel.SeznamCenaServisu.Add(priceNew));
+                Dispatcher.Invoke(() => GetWindow(this)!.Close());
+            }
+            catch (Exception ex)
+            {
+                Dispatcher.Invoke(() => MessageBox.Show("Please enter a valid price. " + ex.Message, "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error));
+            }
+        }
     }
 
 
     private void CloseClick(object sender, RoutedEventArgs e)
     {
-        Dispatcher.Invoke(() => GetWindow(this).Close());
+        Dispatcher.Invoke(() => GetWindow(this)!.Close());
     }
 }

@@ -41,7 +41,7 @@
                     <GridView>
                         <GridViewColumn Header="Defect"  Width="120" DisplayMemberBinding="{Binding Path= Zavada}" />
                         <GridViewColumn Header="Date" Width="100" DisplayMemberBinding="{Binding Path= DatumServisu}" />
-                        <GridViewColumn Header="Speedometer" Width="100" DisplayMemberBinding="{Binding Path= Tachometr}" />
+                        <GridViewColumn Header="Tachometer" Width="100" DisplayMemberBinding="{Binding Path= Tachometr}" />
                         <GridViewColumn Header="Tank capacity" Width="100" DisplayMemberBinding="{Binding Path= PlnostNadrze}" />
 
                     </GridView>

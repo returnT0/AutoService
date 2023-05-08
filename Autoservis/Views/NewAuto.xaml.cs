@@ -9,9 +9,9 @@ namespace Autoservice.Views;
 /// <summary>
 ///     Interaction logic for NewAuto.xaml
 /// </summary>
-public partial class NoveAuto : Window
+public partial class NewAuto : Window
 {
-    public NoveAuto()
+    public NewAuto()
     {
         InitializeComponent();
         if (AutoView.edit)
@@ -25,7 +25,7 @@ public partial class NoveAuto : Window
         }
     }
 
-    private void pridat_Click(object sender, RoutedEventArgs e)
+    private void AddClick(object sender, RoutedEventArgs e)
     {
         // Check if all required fields are entered
         if (string.IsNullOrEmpty(znackaVozu.Text) ||
@@ -82,7 +82,7 @@ public partial class NoveAuto : Window
         Dispatcher.Invoke(() => GetWindow(this)!.Close());
     }
 
-    private void konec_Click(object sender, RoutedEventArgs e)
+    private void CloseClick(object sender, RoutedEventArgs e)
     {
         Dispatcher.Invoke(() => GetWindow(this)!.Close());
     }
